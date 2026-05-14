@@ -1,0 +1,1307 @@
+1. Explain the fundamental data types in Dart (int, double, String, List, Map, etc.) and their uses.
+	-> int store whole number
+	-> double Stores decimal numbers integer value (5.3)
+	-> String stores text
+	-> bool stores true and false
+	-> List multiple  value  [1,2,3,4,5]
+	-> var not need to tell the type of data
+	-> dynamic stores all types of value
+
+2. Describe control structures in Dart with examples of if, else, for, while, and switch.
+	Control the flow to program
+	
+	-> if condition
+		void main() {
+ 			 int num = 10;
+
+  				if (num > 5) {
+   					 print("Number is greater than 5");
+ 				 }
+				}
+3. Explain object-oriented programming concepts in Dart, such as classes, inheritance, polymorphism, and interfaces.
+	-Object-Oriented Programming (OOP) is a programming method that organizes code using objects and classes. Dart supports OOP concepts, which help developers write reusable, 		 organized, and efficient code.
+	1. Class
+	  A class is a blueprint or template used to create objects. It contains variables and functions.
+	2. Inheritance
+	  Inheritance allows one class to use the properties and methods of another class.
+	3. Polymorphism
+	  Polymorphism means one method can perform different tasks using method overriding.
+	4. Interface
+	  An interface is used to achieve abstraction. In Dart, every class can act as an interface using implements
+	
+
+
+
+4. Describe asynchronous programming in Dart, including Future, async, await, and Stream.
+Asynchronous programming allows your program to run multiple tasks at the same time without waiting for one task to finish before starting another.
+
+
+Practical Assignments:
+Basic Syntax and Data Types
+
+Task 1:
+Write a program that takes a user's name and age as input and prints a welcome message that
+includes their name and how many years they have left until they turn 100.
+
+import 'dart:io';
+
+void main() {
+  // Taking user input
+  print("Enter your name:");
+  String name = stdin.readLineSync()!;
+
+  print("Enter your age:");
+  int age = int.parse(stdin.readLineSync()!);
+
+  // Calculate years left to 100
+  int yearsLeft = 100 - age;
+
+  // Display result
+  print("Welcome $name! You have $yearsLeft years left to turn 100.");
+}
+
+Task 2:
+Create a program that converts temperature from Celsius to Fahrenheit and vice versa. Implement functions to handle both conversions and let the user choose the conversion type
+
+import 'dart:io';
+
+// Function: Celsius to Fahrenheit
+double celsiusToFahrenheit(double celsius) {
+  return (celsius * 9 / 5) + 32;
+}
+
+// Function: Fahrenheit to Celsius
+double fahrenheitToCelsius(double fahrenheit) {
+  return (fahrenheit - 32) * 5 / 9;
+}
+
+void main() {
+  print("Choose conversion type:");
+  print("1. Celsius to Fahrenheit");
+  print("2. Fahrenheit to Celsius");
+
+  int choice = int.parse(stdin.readLineSync()!);
+
+  if (choice == 1) {
+    print("Enter temperature in Celsius:");
+    double c = double.parse(stdin.readLineSync()!);
+
+    double result = celsiusToFahrenheit(c);
+    print("Temperature in Fahrenheit: $result");
+  } 
+  else if (choice == 2) {
+    print("Enter temperature in Fahrenheit:");
+    double f = double.parse(stdin.readLineSync()!);
+
+    double result = fahrenheitToCelsius(f);
+    print("Temperature in Celsius: $result");
+  } 
+  else {
+    print("Invalid choice!");
+  }
+}
+
+Task 3:
+Write a program to take a number from the user and determine if it’s even or odd.
+
+import 'dart:io';
+
+void main() {
+  // Take input from user
+  print("Enter a number:");
+  int number = int.parse(stdin.readLineSync()!);
+
+  // Check even or odd
+  if (number % 2 == 0) {
+    print("$number is Even");
+  } else {
+    print("$number is Odd");
+  }
+}
+
+Task 4:
+Create a program that calculates the area and circumference of a circle. Use constants to store
+the value of pi.
+
+import 'dart:io';
+
+void main() {
+  const double pi = 3.14159; // constant value of pi
+
+  // Take radius input
+  print("Enter radius of the circle:");
+  double radius = double.parse(stdin.readLineSync()!);
+
+  // Calculate area and circumference
+  double area = pi * radius * radius;
+  double circumference = 2 * pi * radius;
+
+  // Display results
+  print("Area of circle: $area");
+  print("Circumference of circle: $circumference");
+}
+
+
+2. Control Flow Statements
+
+Task 5:
+Write a program that prints all numbers from 1 to 100. For multiples of 3, print "Fizz" instead
+of the number, and for multiples of 5, print "Buzz." For numbers that are multiples of both 3
+and 5, print "FizzBuzz."
+
+
+void main() {
+  for (int i = 1; i <= 100; i++) {
+    if (i % 3 == 0 && i % 5 == 0) {
+      print("FizzBuzz");
+    } 
+    else if (i % 3 == 0) {
+      print("Fizz");
+    } 
+    else if (i % 5 == 0) {
+      print("Buzz");
+    } 
+    else {
+      print(i);
+    }
+  }
+}
+
+Task 6:
+Create a simple grading system that takes a student’s score as input and prints their grade:  A: 90–100
+ B: 80–89
+ C: 70–79
+ D: 60–69
+ F: Below 60
+
+import 'dart:io';
+
+void main() {
+  // Take input from user
+  print("Enter student's score:");
+  int score = int.parse(stdin.readLineSync()!);
+
+  // Check grade
+  if (score >= 90 && score <= 100) {
+    print("Grade: A");
+  } 
+  else if (score >= 80 && score <= 89) {
+    print("Grade: B");
+  } 
+  else if (score >= 70 && score <= 79) {
+    print("Grade: C");
+  } 
+  else if (score >= 60 && score <= 69) {
+    print("Grade: D");
+  } 
+  else if (score < 60) {
+    print("Grade: F");
+  } 
+  else {
+    print("Invalid score!");
+  }
+}
+
+Task 7:
+Write a program that accepts a number and checks if it is a prime number or not.
+
+import 'dart:io';
+
+void main() {
+  print("Enter a number:");
+  int num = int.parse(stdin.readLineSync()!);
+
+  bool isPrime = true;
+
+  if (num <= 1) {
+    isPrime = false;
+  } else {
+    for (int i = 2; i <= num ~/ 2; i++) {
+      if (num % i == 0) {
+        isPrime = false;
+        break;
+      }
+    }
+  }
+
+  if (isPrime) {
+    print("$num is a Prime number");
+  } else {
+    print("$num is not a Prime number");
+  }
+}
+
+Task 8:
+Implement a basic calculator that performs addition, subtraction, multiplication, or division
+based on the user’s choice.
+
+import 'dart:io';
+
+void main() {
+  print("Enter first number:");
+  double num1 = double.parse(stdin.readLineSync()!);
+
+  print("Enter second number:");
+  double num2 = double.parse(stdin.readLineSync()!);
+
+  print("Choose operation:");
+  print("1. Addition (+)");
+  print("2. Subtraction (-)");
+  print("3. Multiplication (*)");
+  print("4. Division (/)");
+
+  int choice = int.parse(stdin.readLineSync()!);
+
+  double result;
+
+  switch (choice) {
+    case 1:
+      result = num1 + num2;
+      print("Result: $result");
+      break;
+
+    case 2:
+      result = num1 - num2;
+      print("Result: $result");
+      break;
+
+    case 3:
+      result = num1 * num2;
+      print("Result: $result");
+      break;
+
+    case 4:
+      if (num2 != 0) {
+        result = num1 / num2;
+        print("Result: $result");
+      } else {
+        print("Cannot divide by zero!");
+      }
+      break;
+
+    default:
+      print("Invalid choice!");
+  }
+}
+
+3. Functions
+
+Task 9:
+Write a function to calculate the factorial of a number entered by the user.
+
+import 'dart:io';
+
+// Function to calculate factorial
+int factorial(int n) {
+  int result = 1;
+
+  for (int i = 1; i <= n; i++) {
+    result *= i;
+  }
+
+  return result;
+}
+
+void main() {
+  print("Enter a number:");
+  int num = int.parse(stdin.readLineSync()!);
+
+  if (num < 0) {
+    print("Factorial is not defined for negative numbers");
+  } else {
+    int fact = factorial(num);
+    print("Factorial of $num is $fact");
+  }
+}
+
+
+Task 10:
+Create a function that checks if a string is a palindrome (reads the same backward as forward).
+
+import 'dart:io';
+
+// Function to check palindrome
+bool isPalindrome(String str) {
+  String reversed = str.split('').reversed.join('');
+  return str == reversed;
+}
+
+void main() {
+  print("Enter a string:");
+  String input = stdin.readLineSync()!;
+
+  if (isPalindrome(input)) {
+    print("It is a Palindrome");
+  } else {
+    print("It is not a Palindrome");
+  }
+}
+
+Task 11:
+Write a recursive function to generate the Fibonacci series up to a specified number.
+
+import 'dart:io';
+
+// Recursive function to get Fibonacci number
+int fibonacci(int n) {
+  if (n <= 1) {
+    return n;
+  }
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+void main() {
+  print("Enter number of terms:");
+  int terms = int.parse(stdin.readLineSync()!);
+
+  print("Fibonacci Series:");
+  for (int i = 0; i < terms; i++) {
+    print(fibonacci(i));
+  }
+}
+
+Task 12:
+Create a function that accepts a list of numbers and returns the largest and smallest numbers
+in the list.
+
+import 'dart:io';
+
+// Function to find smallest and largest
+void findMinMax(List<int> numbers) {
+  int min = numbers[0];
+  int max = numbers[0];
+
+  for (int num in numbers) {
+    if (num < min) {
+      min = num;
+    }
+    if (num > max) {
+      max = num;
+    }
+  }
+
+  print("Smallest number: $min");
+  print("Largest number: $max");
+}
+
+void main() {
+  print("Enter numbers separated by space:");
+  String input = stdin.readLineSync()!;
+
+  // Convert input string to list of integers
+  List<int> numbers = input.split(' ').map((e) => int.parse(e)).toList();
+
+  findMinMax(numbers);
+}
+
+4. Collections (Lists, Sets, and Maps)
+Task 13:
+Write a program to input a list of integers and sort them in ascending and descending order
+without using built-in sort methods.
+
+import 'dart:io';
+
+// Function for ascending sort
+List<int> sortAscending(List<int> list) {
+  for (int i = 0; i < list.length; i++) {
+    for (int j = 0; j < list.length - i - 1; j++) {
+      if (list[j] > list[j + 1]) {
+        int temp = list[j];
+        list[j] = list[j + 1];
+        list[j + 1] = temp;
+      }
+    }
+  }
+  return list;
+}
+
+// Function for descending sort
+List<int> sortDescending(List<int> list) {
+  for (int i = 0; i < list.length; i++) {
+    for (int j = 0; j < list.length - i - 1; j++) {
+      if (list[j] < list[j + 1]) {
+        int temp = list[j];
+        list[j] = list[j + 1];
+        list[j + 1] = temp;
+      }
+    }
+  }
+  return list;
+}
+
+void main() {
+  print("Enter numbers separated by space:");
+  String input = stdin.readLineSync()!;
+
+  List<int> numbers = input.split(' ').map((e) => int.parse(e)).toList();
+
+  // Copy list for separate sorting
+  List<int> ascList = List.from(numbers);
+  List<int> descList = List.from(numbers);
+
+  // Sort lists
+  sortAscending(ascList);
+  sortDescending(descList);
+
+  print("Ascending Order: $ascList");
+  print("Descending Order: $descList");
+}
+
+Task 14:
+Create a program that takes a list of words and removes any duplicates. Use a set to eliminate
+duplicates, then display the unique words in alphabetical order.
+
+import 'dart:io';
+
+void main() {
+  print("Enter words separated by space:");
+  String input = stdin.readLineSync()!;
+
+  // Convert input to list
+  List<String> words = input.split(' ');
+
+  // Remove duplicates using Set
+  Set<String> uniqueSet = words.toSet();
+
+  // Convert back to list for sorting
+  List<String> uniqueWords = uniqueSet.toList();
+
+  // Sort alphabetically
+  uniqueWords.sort();
+
+  // Display result
+  print("Unique words in alphabetical order:");
+  print(uniqueWords);
+}
+
+
+Task 15:
+Write a program that counts the frequency of each character in a given string and stores the
+result in a map.
+
+import 'dart:io';
+
+void main() {
+  print("Enter a string:");
+  String input = stdin.readLineSync()!;
+
+  Map<String, int> frequency = {};
+
+  for (int i = 0; i < input.length; i++) {
+    String char = input[i];
+
+    if (frequency.containsKey(char)) {
+      frequency[char] = frequency[char]! + 1;
+    } else {
+      frequency[char] = 1;
+    }
+  }
+
+  print("Character Frequency:");
+  frequency.forEach((key, value) {
+    print("$key : $value");
+  });
+}
+
+Task 16:
+Create a simple address book using a map, where the keys are names and the values are
+phone numbers. Add, update, and remove entries based on user input.
+
+	import 'dart:io';
+
+void main() {
+
+  // Creating Map for Address Book
+  Map<String, String> addressBook = {};
+
+  while (true) {
+    print("\n===== Address Book Menu =====");
+    print("1. Add Contact");
+    print("2. Update Contact");
+    print("3. Remove Contact");
+    print("4. Display Contacts");
+    print("5. Exit");
+
+    stdout.write("Enter your choice: ");
+    int choice = int.parse(stdin.readLineSync()!);
+
+    switch (choice) {
+
+      // Add Contact
+      case 1:
+        stdout.write("Enter Name: ");
+        String name = stdin.readLineSync()!;
+
+        stdout.write("Enter Phone Number: ");
+        String phone = stdin.readLineSync()!;
+
+        addressBook[name] = phone;
+
+        print("Contact Added Successfully");
+        break;
+
+      // Update Contact
+      case 2:
+        stdout.write("Enter Name to Update: ");
+        String name = stdin.readLineSync()!;
+
+        if (addressBook.containsKey(name)) {
+
+          stdout.write("Enter New Phone Number: ");
+          String newPhone = stdin.readLineSync()!;
+
+          addressBook[name] = newPhone;
+
+          print("Contact Updated Successfully");
+
+        } else {
+          print("Contact Not Found");
+        }
+        break;
+
+      // Remove Contact
+      case 3:
+        stdout.write("Enter Name to Remove: ");
+        String name = stdin.readLineSync()!;
+
+        addressBook.remove(name);
+
+        print("Contact Removed Successfully");
+        break;
+
+      // Display Contacts
+      case 4:
+        print("\n===== Contact List =====");
+
+        addressBook.forEach((name, phone) {
+          print("$name : $phone");
+        });
+
+        break;
+
+      // Exit Program
+      case 5:
+        print("Program Ended");
+        return;
+
+      default:
+        print("Invalid Choice");
+    }
+  }
+}
+
+5. Object-Oriented Programming
+Task 17:
+Create a class called Book with properties like title, author, and publication year. Add
+methods to display the book’s details and a method to check if it’s over 10 years old.
+
+class Book {
+  String title;
+  String author;
+  int publicationYear;
+
+  // Constructor
+  Book(this.title, this.author, this.publicationYear);
+
+  // Method to display details
+  void displayDetails() {
+    print("Title: $title");
+    print("Author: $author");
+    print("Publication Year: $publicationYear");
+  }
+
+  // Method to check if book is older than 10 years
+  bool isOld() {
+    int currentYear = DateTime.now().year;
+    return (currentYear - publicationYear) > 10;
+  }
+}
+
+void main() {
+  // Create object
+  Book book1 = Book("The Alchemist", "Paulo Coelho", 2005);
+
+  // Display details
+  book1.displayDetails();
+
+  // Check age
+  if (book1.isOld()) {
+    print("This book is over 10 years old.");
+  } else {
+    print("This book is not over 10 years old.");
+  }
+}
+
+Task 18:
+Define a BankAccount class with properties like account number, account holder, and
+balance. Add methods to deposit, withdraw, and check the balance. Ensure the withdraw
+method doesn’t allow overdrafts.
+
+class BankAccount {
+  String accountNumber;
+  String accountHolder;
+  double balance;
+
+  // Constructor
+  BankAccount(this.accountNumber, this.accountHolder, this.balance);
+
+  // Deposit method
+  void deposit(double amount) {
+    balance += amount;
+    print("Deposited: $amount");
+  }
+
+  // Withdraw method (no overdraft allowed)
+  void withdraw(double amount) {
+    if (amount <= balance) {
+      balance -= amount;
+      print("Withdrawn: $amount");
+    } else {
+      print("Insufficient balance! Withdrawal not allowed.");
+    }
+  }
+
+  // Check balance method
+  void checkBalance() {
+    print("Current Balance: $balance");
+  }
+}
+
+void main() {
+  // Create account
+  BankAccount acc = BankAccount("123456", "Mansi", 5000);
+
+  acc.checkBalance();
+
+  acc.deposit(2000);
+  acc.checkBalance();
+
+  acc.withdraw(3000);
+  acc.checkBalance();
+
+  acc.withdraw(5000); // Overdraft attempt
+}
+
+Task 19:
+Create a class hierarchy with a Vehicle superclass and Car and Bike subclasses. Implement
+methods in each subclass that print specific details, like the type of vehicle, fuel type, and
+max speed.
+
+// Superclass
+class Vehicle {
+  void showType() {
+    print("This is a vehicle");
+  }
+}
+
+// Subclass: Car
+class Car extends Vehicle {
+  String fuelType;
+  int maxSpeed;
+
+  Car(this.fuelType, this.maxSpeed);
+
+  void showDetails() {
+    print("Type: Car");
+    print("Fuel Type: $fuelType");
+    print("Max Speed: $maxSpeed km/h");
+  }
+}
+
+// Subclass: Bike
+class Bike extends Vehicle {
+  String fuelType;
+  int maxSpeed;
+
+  Bike(this.fuelType, this.maxSpeed);
+
+  void showDetails() {
+    print("Type: Bike");
+    print("Fuel Type: $fuelType");
+    print("Max Speed: $maxSpeed km/h");
+  }
+}
+
+void main() {
+  // Create Car object
+  Car car = Car("Petrol", 180);
+  car.showType();
+  car.showDetails();
+
+  print("");
+
+  // Create Bike object
+  Bike bike = Bike("Electric", 120);
+  bike.showType();
+  bike.showDetails();
+}
+
+Task 20:
+Write a program that simulates a shopping cart. Define classes for Product, Cart, and Order. Allow users to add products to the cart and calculate the total price of the items.
+
+class Product {
+  String name;
+  double price;
+
+  Product(this.name, this.price);
+}
+
+class Cart {
+  List<Product> items = [];
+
+  // Add product to cart
+  void addProduct(Product product) {
+    items.add(product);
+    print("${product.name} added to cart.");
+  }
+
+  // Calculate total price
+  double getTotal() {
+    double total = 0;
+    for (var item in items) {
+      total += item.price;
+    }
+    return total;
+  }
+
+  // Show cart items
+  void showCart() {
+    print("Cart Items:");
+    for (var item in items) {
+      print("${item.name} - ₹${item.price}");
+    }
+  }
+}
+
+class Order {
+  Cart cart;
+
+  Order(this.cart);
+
+  void placeOrder() {
+    cart.showCart();
+    print("Total Price: ₹${cart.getTotal()}");
+    print("Order placed successfully!");
+  }
+}
+
+void main() {
+  // Create products
+  Product p1 = Product("Shoes", 1500);
+  Product p2 = Product("T-Shirt", 800);
+  Product p3 = Product("Watch", 2000);
+
+  // Create cart
+  Cart cart = Cart();
+
+  // Add products
+  cart.addProduct(p1);
+  cart.addProduct(p2);
+  cart.addProduct(p3);
+
+  // Create order
+  Order order = Order(cart);
+
+  // Place order
+  order.placeOrder();
+}
+
+Task 21:
+Create a program that accepts a number from the user and performs division by another
+number. Use exception handling to manage division by zero errors.
+	import 'dart:io';
+
+void main() {
+
+  try {
+
+    // Taking first number input
+    stdout.write("Enter First Number: ");
+    int num1 = int.parse(stdin.readLineSync()!);
+
+    // Taking second number input
+    stdout.write("Enter Second Number: ");
+    int num2 = int.parse(stdin.readLineSync()!);
+
+    // Checking division by zero
+    if (num2 == 0) {
+      throw UnsupportedError("Cannot divide by zero");
+    }
+
+    // Division
+    double result = num1 / num2;
+
+    print("Result = $result");
+
+  } catch (e) {
+
+    // Handling errors
+    print("Error: $e");
+
+  }
+}
+
+Task 22:
+Write a program that reads a file and displays its contents. Handle potential file not found
+exceptions and display an error message if the file doesn’t exist.
+	import 'dart:io';
+
+void main() async {
+
+  try {
+
+    // File path
+    File file = File('data.txt');
+
+    // Reading file contents
+    String contents = await file.readAsString();
+
+    // Displaying contents
+    print("File Contents:");
+    print(contents);
+
+  } catch (e) {
+
+    // Handling file errors
+    print("Error: File not found or cannot be read.");
+
+  }
+}
+
+Task 23:
+Implement a calculator that catches invalid input errors (like entering a string instead of a
+number). Display appropriate error messages and ask for re-entry
+
+import 'dart:io';
+
+void main() {
+
+  while (true) {
+
+    try {
+
+      // Taking first number
+      stdout.write("Enter First Number: ");
+      double num1 = double.parse(stdin.readLineSync()!);
+
+      // Taking operator
+      stdout.write("Enter Operator (+, -, *, /): ");
+      String op = stdin.readLineSync()!;
+
+      // Taking second number
+      stdout.write("Enter Second Number: ");
+      double num2 = double.parse(stdin.readLineSync()!);
+
+      double result;
+
+      // Performing calculation
+      switch (op) {
+
+        case '+':
+          result = num1 + num2;
+          break;
+
+        case '-':
+          result = num1 - num2;
+          break;
+
+        case '*':
+          result = num1 * num2;
+          break;
+
+        case '/':
+          if (num2 == 0) {
+            throw UnsupportedError("Division by zero is not allowed");
+          }
+          result = num1 / num2;
+          break;
+
+        default:
+          print("Invalid Operator");
+          continue;
+      }
+
+      print("Result = $result");
+      break;
+
+    } catch (e) {
+
+      // Handling invalid input
+      print("Invalid Input! Please enter numbers only.");
+      print("Try Again.\n");
+
+    }
+  }
+}
+
+Task 24:
+Create a program that accepts a list of integers from the user. Use exception handling to
+handle cases where the user inputs non-integer values.
+import 'dart:io';
+
+void main() {
+
+  List<int> numbers = [];
+
+  stdout.write("How many numbers do you want to enter? ");
+  int n = int.parse(stdin.readLineSync()!);
+
+  for (int i = 0; i < n; i++) {
+
+    while (true) {
+
+      try {
+
+        stdout.write("Enter Integer ${i + 1}: ");
+
+        int num = int.parse(stdin.readLineSync()!);
+
+        numbers.add(num);
+
+        break;
+
+      } catch (e) {
+
+        print("Invalid Input! Please enter integers only.");
+
+      }
+    }
+  }
+
+  print("\nList of Integers:");
+  print(numbers);
+}
+
+7. Asynchronous Programming
+Task 25:
+Write a program that simulates a delayed operation using Future.delayed. Display a
+loading message, wait for 3 seconds, and then show a completion message.
+import 'dart:async';
+
+void main() async {
+
+  print("Loading... Please wait");
+
+  // Delay for 3 seconds
+  await Future.delayed(Duration(seconds: 3));
+
+  print("Operation Completed Successfully");
+}
+Task 26:
+Create a program that fetches data from a fake API endpoint (using the http package). Display the data after it's loaded and catch any errors if the request fails.
+
+
+Task 27:
+Write a function that simulates fetching multiple data points (e.g., list of users)
+asynchronously. Use await and async keywords to wait for each "data point" to load, then
+display all the data once loaded.
+
+import 'dart:async';
+
+// Simulated API call for a single user
+Future<String> fetchUser(int id) async {
+
+  await Future.delayed(Duration(seconds: 2));
+
+  return "User $id: Name = User$id";
+}
+
+// Function to fetch multiple users
+Future<void> fetchAllUsers() async {
+
+  List<String> users = [];
+
+  for (int i = 1; i <= 5; i++) {
+
+    print("Loading User $i...");
+
+    String user = await fetchUser(i);
+
+    users.add(user);
+  }
+
+  print("\nAll Users Loaded:\n");
+
+  for (var u in users) {
+    print(u);
+  }
+}
+
+void main() async {
+
+  print("Fetching Users...\n");
+
+  await fetchAllUsers();
+
+  print("\nDone!");
+}
+
+Task 28:
+Implement a mock weather fetching program. Display different messages as it waits for a
+response and then shows a message like “Weather data loaded successfully.”
+
+import 'dart:async';
+
+/// Simulated weather fetching function
+Future<String> fetchWeather() async {
+
+  print("Connecting to weather server...");
+
+  await Future.delayed(Duration(seconds: 2));
+
+  print("Fetching weather data...");
+
+  await Future.delayed(Duration(seconds: 2));
+
+  print("Processing data...");
+
+  await Future.delayed(Duration(seconds: 1));
+
+  return "Weather data loaded successfully.";
+}
+
+void main() async {
+
+  print("Starting Weather App\n");
+
+  String result = await fetchWeather();
+
+  print("\n$result");
+}
+Task 29:
+Write a program that uses the spread operator to combine multiple lists into one list. Remove
+duplicates and sort the list in ascending order.
+	void main() {
+
+  List<int> a = [5,2,8];
+  List<int> b = [3,8,1];
+  List<int> c = [2,7,1];
+
+  List<int> list = [...a, ...b, ...c];
+
+  list = list.toSet().toList();
+
+  list.sort();
+
+  print(list);
+}
+Task 30:
+Create a function that uses higher-order functions. Define a List of numbers and pass it to a
+function that returns a list of squares, cubes, or halves based on the function passed as an
+argument.
+void main() {
+
+  List<int> numbers = [1, 2, 3, 4, 5];
+
+  print("Original List: $numbers\n");
+
+  // Square
+  print("Squares: ${processList(numbers, square)}");
+
+  // Cubes
+  print("Cubes: ${processList(numbers, cube)}");
+
+  // Halves
+  print("Halves: ${processList(numbers, half)}");
+}
+
+// Higher-order function
+List<double> processList(List<int> list, double Function(int) operation) {
+
+  return list.map((item) => operation(item)).toList();
+}
+
+// Square function
+double square(int x) {
+  return x * x;
+}
+
+// Cube function
+double cube(int x) {
+  return x * x * x;
+}
+
+// Half function
+double half(int x) {
+  return x / 2;
+}
+
+Task 31:
+Write a program that uses async* to create a stream of integers. Display each integer as it’s
+emitted and stop the stream after a certain count.
+import 'dart:async';
+
+void main() async {
+
+  print("Starting Stream...\n");
+
+  // Listening to stream
+  await for (int value in numberStream(5)) {
+    print("Received: $value");
+  }
+
+  print("\nStream Ended");
+}
+
+// Stream function using async*
+Stream<int> numberStream(int count) async* {
+
+  for (int i = 1; i <= count; i++) {
+
+    await Future.delayed(Duration(seconds: 1));
+
+    yield i; // emits value to stream
+  }
+}
+Task 32:
+Implement a simple number guessing game where the computer generates a random number, and the user has to guess it. Use a lambda function to provide hints, such as “too high” or “too low.”
+import 'dart:io';
+import 'dart:math';
+
+void main() {
+
+  // Random number between 1 and 10
+  int secretNumber = Random().nextInt(10) + 1;
+
+  print("Guess the number between 1 and 10");
+
+  // Lambda function for hint
+  var getHint = (int guess) =>
+      (guess > secretNumber) ? "Too High" : "Too Low";
+
+  while (true) {
+
+    stdout.write("Enter your guess: ");
+    int guess = int.parse(stdin.readLineSync()!);
+
+    if (guess == secretNumber) {
+      print("🎉 Correct! You guessed the number.");
+      break;
+    } else {
+      print(getHint(guess));
+    }
+  }
+}
+Task 33:
+Explore and integrate the intl package to format dates and numbers in different locales.
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+void main() async {
+  // Fake API URL
+  String url = 'https://jsonplaceholder.typicode.com/posts/1';
+
+  try {
+    print('Loading data...\n');
+
+    // Send GET request
+    final response = await http.get(Uri.parse(url));
+
+    // Check status code
+    if (response.statusCode == 200) {
+      // Decode JSON data
+      Map<String, dynamic> data = jsonDecode(response.body);
+
+      // Display data
+      print('Data loaded successfully!\n');
+
+      print('User ID : ${data['userId']}');
+      print('ID      : ${data['id']}');
+      print('Title   : ${data['title']}');
+      print('Body    : ${data['body']}');
+    } else {
+      print('Request failed.');
+      print('Status Code: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error occurred: $e');
+  }
+}
+Task 34:
+Create a program that generates a QR code from a given string using a QR code package, and
+display it in the console.
+dependencies:
+  qr: ^3.0.2
+
+import 'package:qr/qr.dart';
+
+void main() {
+
+  String data = "Hello Flutter Student";
+
+  // Create QR code
+  final qrCode = QrCode(4, QrErrorCorrectLevel.L);
+  qrCode.addData(data);
+  qrCode.make();
+
+  print("QR Code for: $data\n");
+
+  // Display QR in console
+  for (int y = 0; y < qrCode.moduleCount; y++) {
+    String row = "";
+
+    for (int x = 0; x < qrCode.moduleCount; x++) {
+      row += qrCode.isDark(y, x) ? "██" : "  ";
+    }
+
+    print(row);
+  }
+}
+
+Task 35:
+Write a program that uses the path package to manipulate file paths. Extract the directory, filename, and extension from a file path string.
+dependencies:
+  path: ^1.9.0
+
+import 'package:path/path.dart' as p;
+
+void main() {
+
+  // Sample file path
+  String filePath = "/storage/emulated/0/Download/flutter_notes.pdf";
+
+  // Extract directory
+  String directory = p.dirname(filePath);
+
+  // Extract file name
+  String fileName = p.basename(filePath);
+
+  // Extract extension
+  String extension = p.extension(filePath);
+
+  print("File Path: $filePath\n");
+
+  print("Directory: $directory");
+  print("File Name: $fileName");
+  print("Extension: $extension");
+}
+
+Task 36:
+Implement a basic file reading and writing program using the dart:io library. Write data to a
+file and read it back, handling any file errors that may occur.
+import 'dart:io';
+
+void main() async {
+
+  // File path
+  File file = File('sample.txt');
+
+  try {
+
+    // Writing data to file
+    await file.writeAsString("Hello Flutter Student!\nWelcome to Dart File Handling.");
+
+    print("Data written successfully.\n");
+
+    // Reading data from file
+    String content = await file.readAsString();
+
+    print("File Content:");
+    print(content);
+
+  } catch (e) {
+
+    // Handling file errors
+    print("Error occurred while handling file: $e");
+  }
+}
