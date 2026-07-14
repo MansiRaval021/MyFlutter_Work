@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+
+class FoodCategoryScreen extends StatelessWidget {
+  const FoodCategoryScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, String>> foodCategories = [
+      {
+        "title": "Pizza",
+        "image":
+            "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200"
+      },
+      {
+        "title": "Biryani",
+        "image":
+            "https://images.unsplash.com/photo-1633945274309-2c16c9682a8b?w=200"
+      },
+      {
+        "title": "Burger",
+        "image":
+            "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200"
+      },
+      {
+        "title": "Desserts",
+        "image":
+            "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200"
+      },
+      {
+        "title": "Chinese",
+        "image":
+            "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200"
+      },
+      {
+        "title": "South Indian",
+        "image":
+            "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=200"
+      },
+    ];
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = screenWidth >= 600 ? 3 : 2;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Food Categories"),
+        backgroundColor: Colors.red,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: GridView.count(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          children: foodCategories.map((category) {
+            return Card(
+              elevation: 5,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 35,
+                      backgroundImage:
+                          NetworkImage(category["image"]!),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    Text(
+                      category["title"]!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+}
