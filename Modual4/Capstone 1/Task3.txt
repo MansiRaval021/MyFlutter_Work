@@ -1,0 +1,173 @@
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  // Home Services
+  final List<Map<String, dynamic>> services = [
+    {"name": "Food Delivery", "icon": Icons.fastfood},
+    {"name": "Movie Tickets", "icon": Icons.movie},
+    {"name": "Mobile Recharge", "icon": Icons.phone_android},
+    {"name": "Train Booking", "icon": Icons.train},
+    {"name": "IPL Fantasy", "icon": Icons.sports_cricket},
+  ];
+
+  // Explore Categories
+  final List<Map<String, String>> categories = [
+    {
+      "title": "Food",
+      "image":
+          "https://cdn-icons-png.flaticon.com/512/1046/1046784.png",
+    },
+    {
+      "title": "Travel",
+      "image":
+          "https://cdn-icons-png.flaticon.com/512/854/854878.png",
+    },
+    {
+      "title": "Shopping",
+      "image":
+          "https://cdn-icons-png.flaticon.com/512/263/263142.png",
+    },
+    {
+      "title": "Entertainment",
+      "image":
+          "https://cdn-icons-png.flaticon.com/512/833/833472.png",
+    },
+    {
+      "title": "Payments",
+      "image":
+          "https://cdn-icons-png.flaticon.com/512/2489/2489756.png",
+    },
+    {
+      "title": "Sports",
+      "image":
+          "https://cdn-icons-png.flaticon.com/512/857/857455.png",
+    },
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  // Home Tab
+  Widget _buildHome() {
+    return ListView.builder(
+      itemCount: services.length,
+      itemBuilder: (context, index) {
+        return Card(
+          margin: const EdgeInsets.all(8),
+          child: ListTile(
+            leading: Icon(
+              services[index]["icon"],
+              color: Colors.blue,
+            ),
+            title: Text(services[index]["name"]),
+          ),
+        );
+      },
+    );
+  }
+
+  // Explore Tab
+  Widget _buildExplore() {
+    return GridView.count(
+      crossAxisCount: 2,
+      padding: const EdgeInsets.all(12),
+      crossAxisSpacing: 12,
+      mainAxisSpacing: 12,
+      children: categories.map((category) {
+        return Card(
+          elevation: 4,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.network(
+                category["image"]!,
+                height: 70,
+                width: 70,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                category["title"]!,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  // Profile Tab
+  Widget _buildProfile() {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.person, size: 80, color: Colors.blue),
+          SizedBox(height: 10),
+          Text(
+            "Profile",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget currentScreen;
+
+    if (_selectedIndex == 0) {
+      currentScreen = _buildHome();
+    } else if (_selectedIndex == 1) {
+      currentScreen = _buildExplore();
+    } else {
+      currentScreen = _buildProfile();
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("ServiceHub"),
+        backgroundColor: Colors.blue,
+      ),
+      body: currentScreen,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.blue,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.grid_view),
+            label: "Explore",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+  }
+}

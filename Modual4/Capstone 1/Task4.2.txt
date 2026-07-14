@@ -1,0 +1,180 @@
+import 'package:flutter/material.dart';
+import 'details_screen.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  final List<Map<String, dynamic>> services = [
+    {
+      "name": "Food Delivery",
+      "icon": Icons.fastfood,
+      "description": "Order food from nearby restaurants."
+    },
+    {
+      "name": "Movie Tickets",
+      "icon": Icons.movie,
+      "description": "Book movie tickets instantly."
+    },
+    {
+      "name": "Mobile Recharge",
+      "icon": Icons.phone_android,
+      "description": "Recharge your mobile in seconds."
+    },
+    {
+      "name": "Train Booking",
+      "icon": Icons.train,
+      "description": "Book train tickets easily."
+    },
+    {
+      "name": "IPL Fantasy",
+      "icon": Icons.sports_cricket,
+      "description": "Play fantasy cricket leagues."
+    },
+  ];
+
+  final List<Map<String, dynamic>> categories = [
+    {
+      "name": "Food",
+      "icon": Icons.fastfood,
+      "description": "Explore delicious food services."
+    },
+    {
+      "name": "Travel",
+      "icon": Icons.flight,
+      "description": "Book flights and hotels."
+    },
+    {
+      "name": "Shopping",
+      "icon": Icons.shopping_bag,
+      "description": "Shop your favourite products."
+    },
+    {
+      "name": "Entertainment",
+      "icon": Icons.movie,
+      "description": "Movies, music and more."
+    },
+    {
+      "name": "Payments",
+      "icon": Icons.payment,
+      "description": "Pay bills securely."
+    },
+    {
+      "name": "Sports",
+      "icon": Icons.sports_soccer,
+      "description": "Sports news and live scores."
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("ServiceHub"),
+        backgroundColor: Colors.blue,
+      ),
+
+      body: _selectedIndex == 0
+          ? ListView.builder(
+              itemCount: services.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: const EdgeInsets.all(8),
+                  child: ListTile(
+                    leading: Icon(services[index]["icon"]),
+                    title: Text(services[index]["name"]),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetailsScreen(
+                            title: services[index]["name"],
+                            description: services[index]["description"],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            )
+          : _selectedIndex == 1
+              ? GridView.builder(
+                  padding: const EdgeInsets.all(10),
+                  itemCount: categories.length,
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => DetailsScreen(
+                              title: categories[index]["name"],
+                              description:
+                                  categories[index]["description"],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        elevation: 4,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              categories[index]["icon"],
+                              size: 50,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(height: 10),
+                            Text(categories[index]["name"]),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : const Center(
+                  child: Text(
+                    "Profile Screen",
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.grid_view),
+            label: "Explore",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+  }
+}

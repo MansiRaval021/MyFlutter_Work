@@ -1,0 +1,164 @@
+import 'package:flutter/material.dart';
+import 'details_screen.dart';
+import 'service_list_item.dart';
+import 'category_grid_item.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  final services = [
+    {
+      "name": "Food Delivery",
+      "icon": Icons.fastfood,
+      "description": "Order delicious food online."
+    },
+    {
+      "name": "Movie Tickets",
+      "icon": Icons.movie,
+      "description": "Book movie tickets."
+    },
+    {
+      "name": "Mobile Recharge",
+      "icon": Icons.phone_android,
+      "description": "Recharge your mobile instantly."
+    },
+    {
+      "name": "Train Booking",
+      "icon": Icons.train,
+      "description": "Reserve train tickets."
+    },
+    {
+      "name": "IPL Fantasy",
+      "icon": Icons.sports_cricket,
+      "description": "Play fantasy cricket."
+    },
+  ];
+
+  final categories = [
+    {
+      "name": "Food",
+      "icon": Icons.fastfood,
+      "description": "Food services."
+    },
+    {
+      "name": "Travel",
+      "icon": Icons.flight,
+      "description": "Travel services."
+    },
+    {
+      "name": "Shopping",
+      "icon": Icons.shopping_bag,
+      "description": "Shopping services."
+    },
+    {
+      "name": "Entertainment",
+      "icon": Icons.movie,
+      "description": "Entertainment services."
+    },
+    {
+      "name": "Payments",
+      "icon": Icons.payment,
+      "description": "Payment services."
+    },
+    {
+      "name": "Sports",
+      "icon": Icons.sports_soccer,
+      "description": "Sports services."
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("ServiceHub")),
+
+      body: _selectedIndex == 0
+          ? ListView.builder(
+              itemCount: services.length,
+              itemBuilder: (context, index) {
+                return ServiceListItem(
+                  icon: services[index]["icon"] as IconData,
+                  title: services[index]["name"] as String,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DetailsScreen(
+                          title: services[index]["name"] as String,
+                          description:
+                              services[index]["description"] as String,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            )
+          : _selectedIndex == 1
+              ? GridView.builder(
+                  padding: const EdgeInsets.all(10),
+                  itemCount: categories.length,
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (context, index) {
+                    return CategoryGridItem(
+                      icon: categories[index]["icon"] as IconData,
+                      title: categories[index]["name"] as String,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => DetailsScreen(
+                              title: categories[index]["name"] as String,
+                              description:
+                                  categories[index]["description"] as String,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                )
+              : const Center(
+                  child: Text(
+                    "Profile Screen",
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.grid_view),
+            label: "Explore",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+  }
+}
