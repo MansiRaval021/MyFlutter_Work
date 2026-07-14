@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+
+class ProductListScreen extends StatelessWidget {
+  const ProductListScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, String>> products = [
+      {
+        "category": "Mobiles",
+        "name": "iPhone 15",
+        "price": "₹79,999",
+      },
+      {
+        "category": "Mobiles",
+        "name": "Samsung Galaxy S24",
+        "price": "₹69,999",
+      },
+      {
+        "category": "Laptops",
+        "name": "MacBook Air M3",
+        "price": "₹1,14,999",
+      },
+      {
+        "category": "Laptops",
+        "name": "Dell Inspiron",
+        "price": "₹59,999",
+      },
+      {
+        "category": "Accessories",
+        "name": "Boat Headphones",
+        "price": "₹1,999",
+      },
+      {
+        "category": "Accessories",
+        "name": "Wireless Mouse",
+        "price": "₹799",
+      },
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Flipkart Products"),
+        backgroundColor: Colors.blue,
+      ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(10),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          bool showCategory = index == 0 ||
+              products[index]["category"] !=
+                  products[index - 1]["category"];
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (showCategory)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    products[index]["category"]!,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+
+              Card(
+                elevation: 4,
+                child: ListTile(
+                  leading: const Icon(
+                    Icons.shopping_bag,
+                    color: Colors.blue,
+                  ),
+                  title: Text(products[index]["name"]!),
+                  subtitle: Text(products[index]["price"]!),
+                ),
+              ),
+            ],
+          );
+        },
+        separatorBuilder: (context, index) {
+          bool categoryChanged =
+              products[index]["category"] !=
+                  products[index + 1]["category"];
+
+          if (categoryChanged) {
+            return const Divider(
+              thickness: 4,
+              color: Colors.blue,
+              height: 25,
+            );
+          }
+
+          return const Divider(
+            thickness: 1,
+            height: 10,
+          );
+        },
+      ),
+    );
+  }
+}

@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+
+class PlaylistScreen extends StatelessWidget {
+  const PlaylistScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> playlists = [
+      "Top Hits 2026",
+      "Workout Mix",
+      "Chill Vibes",
+      "Romantic Songs",
+      "Party Anthems",
+      "Lo-Fi Beats",
+      "Morning Motivation",
+      "Travel Playlist",
+      "Old Classics",
+      "Latest Releases",
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Spotify Playlists"),
+        backgroundColor: Colors.green,
+      ),
+      body: ListView.separated(
+        itemCount: playlists.length,
+
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: const Icon(
+              Icons.queue_music,
+              color: Colors.green,
+            ),
+            title: Text(
+              playlists[index],
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          );
+        },
+
+        // Thin divider between playlists
+        separatorBuilder: (context, index) {
+          return const Divider(
+            thickness: 1,
+            height: 1,
+          );
+        },
+      ),
+    );
+  }
+}
