@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import 'app_drawer.dart';
+
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Food Delivery App"),
+        backgroundColor: Colors.red,
+      ),
+
+      drawer: const AppDrawer(),
+
+      body: const Center(
+        child: Text(
+          "Home Screen",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}

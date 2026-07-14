@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  final List<Map<String, String>> restaurants = const [
+    {
+      "name": "Pizza Hut",
+      "cuisine": "Pizza, Fast Food",
+      "rating": "4.5"
+    },
+    {
+      "name": "Burger King",
+      "cuisine": "Burgers",
+      "rating": "4.3"
+    },
+    {
+      "name": "Domino's",
+      "cuisine": "Pizza",
+      "rating": "4.4"
+    },
+    {
+      "name": "Subway",
+      "cuisine": "Healthy Food",
+      "rating": "4.2"
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Trending Restaurants"),
+        backgroundColor: Colors.red,
+      ),
+      body: ListView.builder(
+        itemCount: restaurants.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: const EdgeInsets.all(10),
+            child: ListTile(
+              leading: const Icon(Icons.restaurant),
+              title: Text(restaurants[index]["name"]!),
+              subtitle: Text(restaurants[index]["cuisine"]!),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.star,
+                      color: Colors.orange, size: 18),
+                  Text(restaurants[index]["rating"]!),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

@@ -1,0 +1,90 @@
+import 'package:flutter/material.dart';
+
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
+
+  final List<Map<String, dynamic>> restaurants = const [
+    {
+      "name": "Pizza Hut",
+      "cuisine": "Pizza, Fast Food",
+      "rating": "4.5"
+    },
+    {
+      "name": "Domino's Pizza",
+      "cuisine": "Pizza",
+      "rating": "4.4"
+    },
+    {
+      "name": "Burger King",
+      "cuisine": "Burgers, Snacks",
+      "rating": "4.3"
+    },
+    {
+      "name": "Biryani By Kilo",
+      "cuisine": "Biryani, Mughlai",
+      "rating": "4.6"
+    },
+    {
+      "name": "Subway",
+      "cuisine": "Healthy, Sandwiches",
+      "rating": "4.2"
+    },
+    {
+      "name": "McDonald's",
+      "cuisine": "Burgers, Beverages",
+      "rating": "4.4"
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Trending Restaurants"),
+        backgroundColor: Colors.red,
+      ),
+
+      body: ListView.builder(
+        itemCount: restaurants.length,
+        itemBuilder: (context, index) {
+          final restaurant = restaurants[index];
+
+          return Card(
+            margin: const EdgeInsets.all(10),
+            elevation: 4,
+            child: ListTile(
+              leading: const CircleAvatar(
+                backgroundColor: Colors.orange,
+                child: Icon(
+                  Icons.restaurant,
+                  color: Colors.white,
+                ),
+              ),
+              title: Text(
+                restaurant["name"],
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                restaurant["cuisine"],
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(restaurant["rating"]),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

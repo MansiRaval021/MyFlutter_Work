@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+import 'wallet_screen.dart';
+import 'offers_screen.dart';
+import 'settings_screen.dart';
+
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+
+          const UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.red,
+            ),
+            currentAccountPicture: CircleAvatar(
+              child: Icon(
+                Icons.person,
+                size: 40,
+              ),
+            ),
+            accountName: Text("Mansi Raval"),
+            accountEmail: Text("mansi@example.com"),
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.account_balance_wallet),
+            title: const Text("My Wallet"),
+            onTap: () {
+              Navigator.pop(context);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const WalletScreen(),
+                ),
+              );
+            },
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.local_offer),
+            title: const Text("Offers"),
+            onTap: () {
+              Navigator.pop(context);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OffersScreen(),
+                ),
+              );
+            },
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text("Settings"),
+            onTap: () {
+              Navigator.pop(context);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

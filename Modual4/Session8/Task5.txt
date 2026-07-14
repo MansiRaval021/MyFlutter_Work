@@ -1,0 +1,130 @@
+import 'package:flutter/material.dart';
+
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
+
+  final List<Map<String, String>> restaurants = const [
+    {
+      "name": "Pizza Hut",
+      "cuisine": "Pizza, Fast Food",
+      "rating": "4.5",
+    },
+    {
+      "name": "Domino's Pizza",
+      "cuisine": "Pizza",
+      "rating": "4.4",
+    },
+    {
+      "name": "Burger King",
+      "cuisine": "Burger",
+      "rating": "4.3",
+    },
+    {
+      "name": "Subway",
+      "cuisine": "Healthy Food",
+      "rating": "4.2",
+    },
+    {
+      "name": "Biryani By Kilo",
+      "cuisine": "Biryani",
+      "rating": "4.6",
+    },
+    {
+      "name": "McDonald's",
+      "cuisine": "Fast Food",
+      "rating": "4.4",
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Trending Restaurants"),
+        backgroundColor: Colors.red,
+      ),
+
+      body: GridView.count(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        padding: const EdgeInsets.all(12),
+        childAspectRatio: 0.9,
+
+        children: restaurants.map((restaurant) {
+          return GestureDetector(
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Selected: ${restaurant["name"]}",
+                  ),
+                ),
+              );
+            },
+
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    const CircleAvatar(
+                      radius: 28,
+                      backgroundColor: Colors.orange,
+                      child: Icon(
+                        Icons.restaurant,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    Text(
+                      restaurant["name"]!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Text(
+                      restaurant["cuisine"]!,
+                      textAlign: TextAlign.center,
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(restaurant["rating"]!),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
