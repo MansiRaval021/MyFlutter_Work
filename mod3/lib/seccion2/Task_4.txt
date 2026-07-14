@@ -1,0 +1,68 @@
+class FollowerCountWidget extends StatefulWidget {
+  const FollowerCountWidget({super.key});
+
+  @override
+  State<FollowerCountWidget> createState() => _FollowerCountWidgetState();
+}
+
+class _FollowerCountWidgetState extends State<FollowerCountWidget> {
+  int followers = 1200;
+
+  // Converts numbers to YouTube-style format
+  String formatFollowers(int count) {
+    if (count >= 1000) {
+      return "${(count / 1000).toStringAsFixed(1)}K";
+    }
+    return count.toString();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      margin: const EdgeInsets.all(20),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircleAvatar(
+              radius: 35,
+              child: Icon(Icons.person, size: 40),
+            ),
+            const SizedBox(height: 15),
+
+            const Text(
+              "Tech Channel",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              "${formatFollowers(followers)} Followers",
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.grey,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  followers += 1000;
+                });
+              },
+              child: const Text("Gain 1K Followers"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

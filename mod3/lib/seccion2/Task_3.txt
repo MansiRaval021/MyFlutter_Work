@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+
+class SongTitleCard extends StatefulWidget {
+  const SongTitleCard({super.key});
+
+  @override
+  State<SongTitleCard> createState() => _SongTitleCardState();
+}
+
+class _SongTitleCardState extends State<SongTitleCard> {
+
+  var islike =false;
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.all(16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Blinding Lights",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              "The Weeknd",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 8,),
+            Icon(Icons.favorite, color : islike ? Colors.red : Colors.grey,),
+            SizedBox(height: 8,),
+            ElevatedButton(onPressed: () {
+              setState(() {
+                islike = !islike;
+              });
+            }, child: Text("Like"))
+            
+          ],
+        ),
+      ),
+    );
+  }
+}
