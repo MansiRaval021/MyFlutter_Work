@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+
+class IPLTeamsScreen extends StatelessWidget {
+  const IPLTeamsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> teams = [
+      "Chennai Super Kings",
+      "Mumbai Indians",
+      "Royal Challengers Bengaluru",
+      "Kolkata Knight Riders",
+      "Rajasthan Royals",
+      "Sunrisers Hyderabad",
+      "Delhi Capitals",
+      "Gujarat Titans",
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Trending IPL Teams"),
+        backgroundColor: Colors.blue,
+      ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(12),
+        itemCount: teams.length,
+
+        // Creates each card
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 4,
+            child: ListTile(
+              leading: const Icon(
+                Icons.sports_cricket,
+                color: Colors.blue,
+              ),
+              title: Text(
+                teams[index],
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          );
+        },
+
+        // Adds 12 pixels of vertical space between cards
+        separatorBuilder: (context, index) {
+          return const SizedBox(height: 12);
+        },
+      ),
+    );
+  }
+}
