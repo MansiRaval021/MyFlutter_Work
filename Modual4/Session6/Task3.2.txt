@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+
+class MyPlaylistsTab extends StatelessWidget {
+  const MyPlaylistsTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final songs = [
+      "Shape of You",
+      "Perfect",
+      "Believer",
+      "Closer",
+      "Levitating",
+    ];
+
+    return ListView.builder(
+      itemCount: songs.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: const Icon(Icons.music_note, color: Colors.green),
+          title: Text(songs[index]),
+        );
+      },
+    );
+  }
+}

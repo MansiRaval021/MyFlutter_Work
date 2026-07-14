@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+
+class ReviewsTab extends StatelessWidget {
+  const ReviewsTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: const [
+        ListTile(
+          leading: Icon(Icons.star, color: Colors.amber),
+          title: Text("Excellent Product"),
+          subtitle: Text("⭐⭐⭐⭐⭐ Very good quality and value for money."),
+        ),
+        Divider(),
+        ListTile(
+          leading: Icon(Icons.star, color: Colors.amber),
+          title: Text("Worth Buying"),
+          subtitle: Text("⭐⭐⭐⭐ Great performance and battery life."),
+        ),
+      ],
+    );
+  }
+}

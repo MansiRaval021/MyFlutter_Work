@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+
+class LikedSongsTab extends StatefulWidget {
+  const LikedSongsTab({super.key});
+
+  @override
+  State<LikedSongsTab> createState() => _LikedSongsTabState();
+}
+
+class _LikedSongsTabState extends State<LikedSongsTab>
+    with AutomaticKeepAliveClientMixin {
+  final List<String> likedSongs = [
+    "Blinding Lights",
+    "Stay",
+    "As It Was",
+    "Peaches",
+    "Calm Down",
+    "Flowers",
+    "Enemy",
+    "Heat Waves",
+    "Bad Habits",
+    "Someone You Loved",
+  ];
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return ListView.builder(
+      itemCount: likedSongs.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: const Icon(
+            Icons.favorite,
+            color: Colors.red,
+          ),
+          title: Text(likedSongs[index]),
+        );
+      },
+    );
+  }
+}

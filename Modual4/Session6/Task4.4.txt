@@ -1,0 +1,22 @@
+import 'package:flutter/material.dart';
+
+class QATab extends StatelessWidget {
+  const QATab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: const [
+        ListTile(
+          title: Text("Q: Does this phone support 5G?"),
+          subtitle: Text("A: Yes, it supports 5G connectivity."),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Q: Is the charger included?"),
+          subtitle: Text("A: Yes, a fast charger is included in the box."),
+        ),
+      ],
+    );
+  }
+}

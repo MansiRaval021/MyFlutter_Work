@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'my_playlists_tab.dart';
+import 'liked_songs_tab.dart';
+
+class PlaylistScreen extends StatelessWidget {
+  const PlaylistScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Playlist"),
+          backgroundColor: Colors.green,
+          bottom: const TabBar(
+            tabs: [
+              Tab(
+                icon: Icon(Icons.library_music),
+                text: "My Playlists",
+              ),
+              Tab(
+                icon: Icon(Icons.favorite),
+                text: "Liked Songs",
+              ),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            MyPlaylistsTab(),
+            LikedSongsTab(),
+          ],
+        ),
+      ),
+    );
+  }
+}

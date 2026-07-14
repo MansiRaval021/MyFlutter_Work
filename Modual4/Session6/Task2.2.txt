@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+
+class MyPlaylistsTab extends StatefulWidget {
+  const MyPlaylistsTab({super.key});
+
+  @override
+  State<MyPlaylistsTab> createState() => _MyPlaylistsTabState();
+}
+
+class _MyPlaylistsTabState extends State<MyPlaylistsTab>
+    with AutomaticKeepAliveClientMixin {
+  final List<String> songs = [
+    "Shape of You",
+    "Perfect",
+    "Believer",
+    "Closer",
+    "Levitating",
+    "Senorita",
+    "Havana",
+    "Memories",
+    "Counting Stars",
+    "Thunder",
+  ];
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return ListView.builder(
+      itemCount: songs.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: const Icon(
+            Icons.music_note,
+            color: Colors.green,
+          ),
+          title: Text(songs[index]),
+        );
+      },
+    );
+  }
+}

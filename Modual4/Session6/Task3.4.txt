@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+
+class RecentlyPlayedTab extends StatelessWidget {
+  const RecentlyPlayedTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final recentSongs = [
+      "Counting Stars",
+      "Thunder",
+      "Enemy",
+      "Memories",
+      "Calm Down",
+    ];
+
+    return ListView.builder(
+      itemCount: recentSongs.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: const Icon(
+            Icons.history,
+            color: Colors.orange,
+          ),
+          title: Text(recentSongs[index]),
+        );
+      },
+    );
+  }
+}

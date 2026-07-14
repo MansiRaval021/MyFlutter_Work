@@ -1,0 +1,18 @@
+import 'package:flutter/material.dart';
+
+class DescriptionTab extends StatelessWidget {
+  const DescriptionTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(16),
+      child: Text(
+        "This is a premium smartphone with a 6.7-inch AMOLED display, "
+        "128GB storage, 8GB RAM, and a powerful processor.\n\n"
+        "Placeholder for product description.",
+        style: TextStyle(fontSize: 16),
+      ),
+    );
+  }
+}

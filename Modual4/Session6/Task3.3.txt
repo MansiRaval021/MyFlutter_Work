@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+
+class LikedSongsTab extends StatelessWidget {
+  const LikedSongsTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final likedSongs = [
+      "Blinding Lights",
+      "Stay",
+      "Peaches",
+      "Flowers",
+      "Heat Waves",
+    ];
+
+    return ListView.builder(
+      itemCount: likedSongs.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: const Icon(Icons.favorite, color: Colors.red),
+          title: Text(likedSongs[index]),
+        );
+      },
+    );
+  }
+}
