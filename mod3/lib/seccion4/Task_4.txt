@@ -1,0 +1,99 @@
+import 'package:flutter/material.dart';
+
+class PlaylistScreen extends StatelessWidget {
+  const PlaylistScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor:  Color(0xFF121212),
+      appBar: AppBar(
+        title:  Text("Spotify Playlist"),
+        backgroundColor: Colors.black,
+        elevation: 0,
+      ),
+      body: Center(
+        child: Container(
+          width: 320,
+          padding:  EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient:  LinearGradient(
+              colors: [Color(0xFF1DB954), Color(0xFF15883E)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.green.withOpacity(0.4),
+                blurRadius: 15,
+                spreadRadius: 3,
+                offset:  Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Playlist Image
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  "https://picsum.photos/250",
+                  height: 180,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+               SizedBox(height: 20),
+
+              // Playlist Title
+               Text(
+                "Chill Vibes",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+
+               SizedBox(height: 8),
+
+              // Number of Songs
+               Text(
+                "42 Songs",
+                style: TextStyle(fontSize: 18, color: Colors.white70),
+              ),
+
+               SizedBox(height: 20),
+
+              // Play Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                       SnackBar(content: Text("Playing Chill Vibes 🎵")),
+                    );
+                  },
+                  icon:  Icon(Icons.play_arrow),
+                  label:  Text("Play Playlist"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    padding:  EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

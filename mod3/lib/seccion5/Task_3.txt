@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+
+class SongInfoScreen extends StatelessWidget {
+  const SongInfoScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text("Song Info"),
+        backgroundColor: Colors.green,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Song Title
+             Text(
+              "Blinding Lights",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+
+             SizedBox(height: 10),
+
+            // Artist Name
+             Text(
+              "The Weeknd",
+              style: TextStyle(
+                fontSize: 20,
+                fontStyle: FontStyle.italic,
+                color: Colors.grey,
+              ),
+            ),
+
+             SizedBox(height: 25),
+
+            // Play Now Button
+            ElevatedButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                   SnackBar(
+                    content: Text("Playing song..."),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                padding:  EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 15,
+                ),
+              ),
+              child:  Text(
+                "Play Now",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+             SizedBox(height: 20),
+
+            // Heart Icon
+             Icon(
+              Icons.favorite,
+              color: Colors.red,
+              size: 40,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

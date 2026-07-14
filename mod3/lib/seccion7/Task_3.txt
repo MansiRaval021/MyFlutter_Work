@@ -1,0 +1,112 @@
+import 'package:flutter/material.dart';
+
+class ProductGridScreen extends StatelessWidget {
+  const ProductGridScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text("Flipkart Products"),
+        backgroundColor: Colors.blue,
+      ),
+      body: Padding(
+        padding:  EdgeInsets.all(12),
+        child: Row(
+          children: [
+            // Product Card 1
+            Expanded(
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding:  EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Image.network(
+                          "https://picsum.photos/200",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                       SizedBox(height: 10),
+                       Text(
+                        "Wireless Headphones",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                       SizedBox(height: 5),
+                       Text(
+                        "₹2,499",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                       SizedBox(height: 10),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child:  Text("Buy Now"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+             SizedBox(width: 12),
+
+            // Product Card 2
+            Expanded(
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding:  EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Image.network(
+                          "https://picsum.photos/201",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                       SizedBox(height: 10),
+                       Text(
+                        "Smart Watch",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                       SizedBox(height: 5),
+                       Text(
+                        "₹3,999",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                       SizedBox(height: 10),
+                      ElevatedButton(
+                          onPressed: () {},
+                          child:  Text("Buy Now"),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

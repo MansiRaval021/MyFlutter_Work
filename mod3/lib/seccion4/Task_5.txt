@@ -1,0 +1,91 @@
+
+import 'package:flutter/material.dart';
+
+class PlaylistScreen extends StatelessWidget {
+  const PlaylistScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      backgroundColor:  Color(0xFF121212),
+      appBar: AppBar(
+        title:  Text("Spotify Playlist"),
+        backgroundColor: Colors.black,
+      ),
+      body: Center(
+        child: Container(
+          width: screenWidth * 0.85,
+          padding: EdgeInsets.all(screenWidth * 0.05),
+          decoration: BoxDecoration(
+            gradient:  LinearGradient(
+              colors: [
+                Color(0xFF1DB954),
+                Color(0xFF15883E),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(screenWidth * 0.05),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.green.withOpacity(0.4),
+                blurRadius: screenWidth * 0.04,
+                spreadRadius: screenWidth * 0.01,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ClipRRect(
+                borderRadius:
+                BorderRadius.circular(screenWidth * 0.04),
+                child: Image.network(
+                  "https://picsum.photos/400",
+                  width: double.infinity,
+                  height: screenHeight * 0.25,
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+              SizedBox(height: screenHeight * 0.02),
+
+              Text(
+                "Chill Vibes",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.07,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+
+              SizedBox(height: screenHeight * 0.01),
+
+              Text(
+                "42 Songs",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.045,
+                  color: Colors.white70,
+                ),
+              ),
+
+              SizedBox(height: screenHeight * 0.03),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon:  Icon(Icons.play_arrow),
+                  label:  Text("Play Playlist"),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

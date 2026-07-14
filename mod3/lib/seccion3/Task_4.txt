@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+
+class iconbutton extends StatefulWidget {
+  const iconbutton({super.key});
+
+  @override
+  State<iconbutton> createState() => _iconbuttonState();
+}
+
+class _iconbuttonState extends State<iconbutton> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      appBar: AppBar(title: Text("my profile"),
+        actions: [
+          IconButton(onPressed: (){
+            setState(() {
+              print("Search biutton is clicked");
+            });
+
+          }, icon: Icon(Icons.search)),
+          IconButton(onPressed: (){
+            setState(() {
+              print("Setting biutton is clicked");
+            });
+
+          }, icon: Icon(Icons.settings)),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: ()
+      {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Floating button is clicked"), duration: Duration(seconds: 2),));
+      },
+        child: Icon(Icons.add), backgroundColor: Colors.purple,),
+    );
+  }
+}

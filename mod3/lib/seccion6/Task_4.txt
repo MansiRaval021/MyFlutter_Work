@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+
+class RatingScreen extends StatefulWidget {
+  const RatingScreen({super.key});
+
+  @override
+  State<RatingScreen> createState() => _RatingScreenState();
+}
+
+class _RatingScreenState extends State<RatingScreen> {
+  int rating = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text("Rate This Restaurant"),
+        backgroundColor: Colors.red,
+      ),
+      body: Center(
+        child: Card(
+          elevation: 5,
+          margin:  EdgeInsets.all(20),
+          child: Padding(
+            padding:  EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                 Text(
+                  "Delicious Pizza 🍕",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                 SizedBox(height: 20),
+
+                // Rating Bar
+              RatingBar.builder(
+                initialRating: 3,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  print(rating);
+                },
+              );
+
+                 SizedBox(height: 20),
+
+                Text(
+                  "Your Rating: $rating / 5",
+                  style:  TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

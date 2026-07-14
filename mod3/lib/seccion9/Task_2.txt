@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+
+class RestaurantScreen extends StatelessWidget {
+  RestaurantScreen({super.key});
+
+  // Dummy restaurant data
+  final List<Map<String, dynamic>> restaurants =  [
+    {
+      "name": "Pizza Palace",
+      "cuisine": "Italian",
+      "rating": "4.5",
+    },
+    {
+      "name": "Spice Garden",
+      "cuisine": "Indian",
+      "rating": "4.7",
+    },
+    {
+      "name": "Burger House",
+      "cuisine": "Fast Food",
+      "rating": "4.3",
+    },
+    {
+      "name": "Sushi World",
+      "cuisine": "Japanese",
+      "rating": "4.8",
+    },
+    {
+      "name": "Taco Corner",
+      "cuisine": "Mexican",
+      "rating": "4.4",
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text("Restaurants"),
+        backgroundColor: Colors.red,
+      ),
+      body: ListView.builder(
+        itemCount: restaurants.length,
+        itemBuilder: (context, index) {
+          return RestaurantCard(
+            restaurantName: restaurants[index]["name"],
+            cuisine: restaurants[index]["cuisine"],
+            rating: restaurants[index]["rating"],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class RestaurantCard extends StatelessWidget {
+  final String restaurantName;
+  final String cuisine;
+  final String rating;
+
+  const RestaurantCard({
+    super.key,
+    required this.restaurantName,
+    required this.cuisine,
+    required this.rating,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin:  EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 8,
+      ),
+      elevation: 4,
+      child: ListTile(
+        leading:  CircleAvatar(
+          backgroundColor: Colors.red,
+          child: Icon(
+            Icons.restaurant,
+            color: Colors.white,
+          ),
+        ),
+        title: Text(
+          restaurantName,
+          style:  TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Text(cuisine),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+             Icon(
+              Icons.star,
+              color: Colors.green,
+            ),
+             SizedBox(width: 4),
+            Text(rating),
+          ],
+        ),
+      ),
+    );
+  }
+}

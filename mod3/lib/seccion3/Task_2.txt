@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+import 'package:module_3/session_2/Task_1.dart';
+import 'package:module_3/session_2/Task_2.dart';
+import 'package:module_3/session_2/Task_4.dart';
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(home:InstaProfile()));
+}
+
+class InstaProfile extends StatelessWidget {
+  const InstaProfile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+      return Scaffold(
+        backgroundColor: Colors.purple,
+        appBar: AppBar(
+          title: Text('My profile'),
+        ),
+        body: Center(
+          child: Column(
+            children:
+            [
+              CircleAvatar(child: Icon(Icons.person)),
+              Text('Welcome to InstaProfile!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,),),
+          ]
+          ),
+        ),
+    );
+  }
+}

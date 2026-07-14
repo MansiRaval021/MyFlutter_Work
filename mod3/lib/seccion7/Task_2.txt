@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+
+class mySimpleRow extends StatefulWidget {
+  const mySimpleRow({super.key});
+
+  @override
+  State<mySimpleRow> createState() => _mySimpleRowState();
+}
+
+class _mySimpleRowState extends State<mySimpleRow> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Row Data"),),
+      body: Row
+        (
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children:
+        [
+          TextButton(onPressed: (){}, child: Text("post")),
+
+          TextButton(onPressed: (){}, child: Text("Reel")),
+
+          TextButton(onPressed: (){}, child: Text("Tagged")),
+        ],
+      ),
+    );
+  }
+}

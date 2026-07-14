@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+
+class MyApp extends StatelessWidget {
+   const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Local Style Override',
+
+      // Global Theme
+      theme: ThemeData(
+        textTheme:  TextTheme(
+          bodyMedium: TextStyle(
+            fontSize: 18,
+            color: Colors.blue,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ),
+
+      home: Scaffold(
+        appBar: AppBar(
+          title:  Text("Text Style Example"),
+        ),
+        body:  Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Uses the global theme
+              Text(
+                "This text uses the global theme.",
+              ),
+
+              SizedBox(height: 20),
+
+              // Local style override
+              Text(
+                "This text is bold and red!",
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+
+class ProductCard extends StatefulWidget {
+  const ProductCard({super.key});
+
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      margin: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Container(
+        width: 250,
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+
+            Image.network('https://picsum.photos/200', height: 150, width: 150, fit: BoxFit.cover,),
+
+            SizedBox(height: 15),
+
+
+            Text('Wireless Bluetooth Headphones', textAlign: TextAlign.center,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),),
+
+            SizedBox(height: 10),
+
+            Text('₹2,499', style: TextStyle(fontSize: 20, color: Colors.green, fontWeight: FontWeight.bold,),),
+
+            SizedBox(height: 20),
+
+            ElevatedButton(onPressed: ()
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Product Added to Cart!', duration: Duration(seconds:2)),),);
+                }, child: Text('Buy Now', style: TextStyle(fontSize: 16, color: Colors.white,),),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}

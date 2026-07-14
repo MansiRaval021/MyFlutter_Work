@@ -1,0 +1,41 @@
+import 'package:flutter/material.dart';
+
+class MyMusicTheme extends StatelessWidget {
+  const MyMusicTheme({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'MyMusicTheme',
+      
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.purple,
+        ).copyWith(
+          secondary: Colors.orange, // Accent color
+        ),
+      ),
+
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('MyMusicTheme'),
+        ),
+        body: const Center(
+          child: Text(
+            'Welcome to MyMusicTheme!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(Icons.music_note),
+        ),
+      ),
+    );
+  }
+}

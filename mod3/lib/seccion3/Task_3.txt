@@ -1,0 +1,33 @@
+import 'package:flutter/material.dart';
+
+class iconbutton extends StatefulWidget {
+  const iconbutton({super.key});
+
+  @override
+  State<iconbutton> createState() => _iconbuttonState();
+}
+
+class _iconbuttonState extends State<iconbutton> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      appBar: AppBar(
+        actions: [
+          IconButton(onPressed: (){
+            setState(() {
+              print("Search biutton is clicked");
+            });
+
+          }, icon: Icon(Icons.search)),
+          IconButton(onPressed: (){
+            setState(() {
+              print("Setting biutton is clicked");
+            });
+
+          }, icon: Icon(Icons.settings)),
+        ],
+      ),
+    );
+  }
+}

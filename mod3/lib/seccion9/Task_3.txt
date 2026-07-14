@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart';
+
+class OfferBanner extends StatelessWidget {
+  final String imageUrl;
+  final String offerText;
+
+  const OfferBanner({
+    super.key,
+    required this.imageUrl,
+    required this.offerText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      margin: EdgeInsets.all(16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.horizontal(
+              left: Radius.circular(15),
+            ),
+            child: Image.network(
+              imageUrl,
+              width: 120,
+              height: 100,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Text(
+                offerText,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

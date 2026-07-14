@@ -1,0 +1,33 @@
+import 'package:flutter/material.dart';
+
+class SongInfoScreen extends StatelessWidget {
+  const SongInfoScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text("Song Info"),
+        backgroundColor: Colors.green,
+      ),
+      body: Center(
+          child: Column(
+            children: [
+               Icon(
+                Icons.favorite,
+                color: Colors.red,
+                size: 40,
+              ),
+
+               SizedBox(height: 20),
+
+              Image.network("https://upload.wikimedia.org/wikipedia/commons/9/95/The_Weeknd_Cannes_2023.png", width: 200, height: 250,
+                  fit: BoxFit.cover,
+                ),
+            ],
+          ),
+        ),
+
+    );
+  }
+}

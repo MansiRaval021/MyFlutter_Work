@@ -1,0 +1,83 @@
+import 'package:flutter/material.dart';
+
+class ProductCardScreen extends StatefulWidget {
+  const ProductCardScreen({super.key});
+
+  @override
+  State<ProductCardScreen> createState() => _ProductCardScreenState();
+}
+
+class _ProductCardScreenState extends State<ProductCardScreen> {
+  bool isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text("Flipkart Product"),
+        backgroundColor: Colors.blue,
+      ),
+      body: Center(
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              isFavorite = !isFavorite;
+            });
+          },
+          child: Card(
+            elevation: 6,
+            margin:  EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Container(
+              width: 250,
+              padding:  EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.network(
+                    "https://picsum.photos/200",
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
+
+                   SizedBox(height: 15),
+
+                   Text(
+                    "Wireless Bluetooth Headphones",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                   SizedBox(height: 15),
+
+                  Icon(
+                    isFavorite ? Icons.star : Icons.star_border,
+                    color: isFavorite ? Colors.yellow : Colors.grey,
+                    size: 40,
+                  ),
+
+                   SizedBox(height: 10),
+
+                  Text(
+                    isFavorite
+                        ? "Added to Favorites"
+                        : "Tap Card to Favorite",
+                    style: TextStyle(
+                      color: isFavorite ? Colors.green : Colors.black54,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+
+class zomatoMenu extends StatelessWidget {
+  const zomatoMenu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Zomato Menu"), backgroundColor: Colors.red,),
+      body: Center(
+        child: Container(
+          margin: EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: Colors.red.shade50,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Home", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,),),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Orders", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,),),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Offers", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,),),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Profile", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,41 @@
+import 'package:flutter/material.dart';
+
+class ChatScreen extends StatelessWidget {
+  const ChatScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Get screen width
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text("WhatsApp Chat"),
+        backgroundColor: Colors.green,
+      ),
+      body: Padding(
+        padding:  EdgeInsets.all(16),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            // Maximum width is 80% of the screen
+            width: screenWidth * 0.8,
+            padding:  EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.green.shade300,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child:  Text(
+              "Hello! This is a WhatsApp-style chat message. "
+                  "Now the bubble automatically adjusts to different screen sizes.",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

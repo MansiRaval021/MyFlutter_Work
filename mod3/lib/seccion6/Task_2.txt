@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+
+class PlaylistVotingScreen extends StatefulWidget {
+  const PlaylistVotingScreen({super.key});
+
+  @override
+  State<PlaylistVotingScreen> createState() =>
+      _PlaylistVotingScreenState();
+}
+
+class _PlaylistVotingScreenState extends State<PlaylistVotingScreen> {
+  int voteCount = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text("Playlist Voting"),
+        backgroundColor: Colors.green,
+      ),
+      body: Center(
+        child: Card(
+          elevation: 5,
+          margin:  EdgeInsets.all(20),
+          child: Padding(
+            padding:  EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Song Name
+                 Text(
+                  "Tumhi Mere Mandir",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                 SizedBox(height: 20),
+
+                // Vote Count
+                Text(
+                  "Votes: $voteCount",
+                  style:  TextStyle(
+                    fontSize: 20,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                 SizedBox(height: 20),
+
+                // Buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          voteCount++;
+                        });
+                      },
+                      icon:  Icon(Icons.thumb_up),
+                      label:  Text("Upvote"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          voteCount--;
+                        });
+                      },
+                      icon:  Icon(Icons.thumb_down),
+                      label:  Text("Downvote"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
