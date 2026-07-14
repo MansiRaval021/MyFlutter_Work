@@ -1,0 +1,85 @@
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Navigation Drawer"),
+        backgroundColor: Colors.black,
+      ),
+
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+
+            // Custom Drawer Header
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.black,
+                    Colors.green,
+                    Colors.black87,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+
+              currentAccountPicture: const CircleAvatar(
+                radius: 35,
+                backgroundImage: NetworkImage(
+                  "https://i.pravatar.cc/150?img=12",
+                ),
+              ),
+
+              accountName: const Text(
+                "Mansi Raval",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+
+              accountEmail: const Text(
+                "mansi@example.com",
+              ),
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.shopping_bag_outlined),
+              title: const Text("My Orders"),
+              onTap: () {},
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.favorite_border),
+              title: const Text("Favourites"),
+              onTap: () {},
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Logout"),
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
+
+      body: const Center(
+        child: Text(
+          "Swipe from the left or tap ☰ to open the drawer.",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}

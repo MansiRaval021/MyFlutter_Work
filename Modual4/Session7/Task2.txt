@@ -1,0 +1,77 @@
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Navigation Drawer"),
+        backgroundColor: Colors.blue,
+      ),
+
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(
+                  "https://via.placeholder.com/150",
+                ),
+              ),
+              accountName: Text(
+                "Mansi Raval",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              accountEmail: Text("mansi@example.com"),
+            ),
+
+            // My Orders
+            ListTile(
+              leading: const Icon(Icons.shopping_bag_outlined),
+              title: const Text("My Orders"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            // Favourites
+            ListTile(
+              leading: const Icon(Icons.favorite_border),
+              title: const Text("Favourites"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            // Logout
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Logout"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+
+      body: const Center(
+        child: Text(
+          "Open the Navigation Drawer",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}

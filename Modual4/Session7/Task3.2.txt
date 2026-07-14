@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+
+class MyOrdersScreen extends StatelessWidget {
+  const MyOrdersScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("My Orders"),
+        backgroundColor: Colors.blue,
+      ),
+      body: const Center(
+        child: Text(
+          "Welcome to My Orders",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
