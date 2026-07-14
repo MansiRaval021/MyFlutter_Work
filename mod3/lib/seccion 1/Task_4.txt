@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+
+class userGreeting extends StatelessWidget {
+  const userGreeting({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("User Greeting"),),
+      body: Center(
+        child: Column(
+          children: [
+            Text("Hello! Flutter Learner."),
+          ],
+        ),
+      ),
+
+    );
+  }
+}

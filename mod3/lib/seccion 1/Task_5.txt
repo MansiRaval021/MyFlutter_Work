@@ -1,0 +1,13 @@
+MaterialApp
+│
+└── Scaffold
+    │
+    ├── AppBar
+    │   ├── title : Text ("Cafe Menu")
+    │
+    └── Body : Center
+        │
+        └── child : Column
+            │
+            ├── childern
+                ├── Text("Hello! Flutter Learner")

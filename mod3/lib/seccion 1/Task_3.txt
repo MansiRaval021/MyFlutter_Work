@@ -1,0 +1,37 @@
+I rearranged the widgets inside the Column so that the ElevatedButton appears first, followed by the IPL team name and food name.
+Befor that it was the upside-down first it displayed the text widgets and then Elevatedbutton.
+After running the app, the button is displayed at the top of the card, while the two text widgets appear below it.
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(home: newApp(),));
+}
+class newApp extends StatefulWidget {
+  const newApp({super.key});
+  @override
+  State<newApp> createState() => _newAppState();
+}
+class _newAppState extends State<newApp> {
+  var str = "My Favorite Food : Franky!";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            ElevatedButton(onPressed: ()
+            {
+              setState(() {
+                 str = "Updated!";
+              });
+            }, child: Text("click")),
+            Text("IPL Team : RCB!"),
+            Text("$str"),
+
+          ],
+        ),
+      ),
+    );
+  }
+}
