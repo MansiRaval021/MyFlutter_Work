@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+import 'songs_screen.dart';
+import 'albums_screen.dart';
+import 'profile_screen.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _screens = const [
+    SongsScreen(),
+    AlbumsScreen(),
+    ProfileScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Music Navigation Demo"),
+        backgroundColor: Colors.green,
+      ),
+
+      body: _screens[_selectedIndex],
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+
+        // Selected Item Style
+        selectedItemColor: Colors.green,
+        selectedFontSize: 14,
+        selectedIconTheme: const IconThemeData(
+          size: 30,
+        ),
+
+        // Unselected Item Style
+        unselectedItemColor: Colors.grey,
+        unselectedFontSize: 12,
+        unselectedIconTheme: const IconThemeData(
+          size: 24,
+        ),
+
+        type: BottomNavigationBarType.fixed,
+
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.music_note_outlined),
+            activeIcon: Icon(Icons.music_note),
+            label: "Songs",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.album_outlined),
+            activeIcon: Icon(Icons.album),
+            label: "Albums",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'songs_screen.dart';
+import 'albums_screen.dart';
+import 'profile_screen.dart';
+import 'custom_bottom_nav.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> screens = const [
+    SongsScreen(),
+    AlbumsScreen(),
+    ProfileScreen(),
+  ];
+
+  void onTabTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Music Navigation Demo"),
+        backgroundColor: Colors.green,
+      ),
+
+      body: screens[_selectedIndex],
+
+      bottomNavigationBar: CustomBottomNav(
+        currentIndex: _selectedIndex,
+        onTap: onTabTapped,
+      ),
+    );
+  }
+}
