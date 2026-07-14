@@ -1,0 +1,112 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: RepCounterScreen(),
+    );
+  }
+}
+
+class RepCounterScreen extends StatefulWidget {
+  const RepCounterScreen({super.key});
+
+  @override
+  State<RepCounterScreen> createState() => _RepCounterScreenState();
+}
+
+class _RepCounterScreenState extends State<RepCounterScreen> {
+  int repCount = 0;
+  double caloriesPerRep = 5.0;
+
+  @override
+  Widget build(BuildContext context) {
+    double totalCalories = repCount * caloriesPerRep;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Rep Counter"),
+        backgroundColor: Colors.blue,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Exercise: Push Ups",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            Text(
+              "Calories per Rep: $caloriesPerRep",
+              style: const TextStyle(fontSize: 20),
+            ),
+
+            const SizedBox(height: 25),
+
+            Text(
+              "$repCount",
+              style: const TextStyle(
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      if (repCount > 0) {
+                        repCount--;
+                      }
+                    });
+                  },
+                  child: const Text("-"),
+                ),
+
+                const SizedBox(width: 20),
+
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      repCount++;
+                    });
+                  },
+                  child: const Text("+"),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 25),
+
+            Text(
+              "Total Calories Burned: ${totalCalories.toStringAsFixed(1)}",
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

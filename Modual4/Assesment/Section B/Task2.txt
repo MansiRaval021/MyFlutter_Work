@@ -1,0 +1,47 @@
+// Exercise Class
+class Exercise {
+  String name;
+  double caloriesPerSet;
+  bool isCardio;
+
+  // Constructor
+  Exercise(this.name, this.caloriesPerSet, this.isCardio);
+}
+
+void main() {
+  // List of Exercise Objects
+  List<Exercise> exercises = [
+    Exercise("Running", 120.5, true),
+    Exercise("Cycling", 95.0, true),
+    Exercise("Push Ups", 40.0, false),
+    Exercise("Squats", 55.0, false),
+  ];
+
+  // Print All Exercises
+  print("All Exercises:");
+  for (var exercise in exercises) {
+    print(
+        "${exercise.name} - ${exercise.caloriesPerSet} cal/set - Cardio: ${exercise.isCardio}");
+  }
+
+  // Filter and Print Only Cardio Exercises
+  print("\nCardio Exercises:");
+  for (var exercise in exercises) {
+    if (exercise.isCardio) {
+      print("${exercise.name} - ${exercise.caloriesPerSet} cal/set");
+    }
+  }
+
+  // Store Exercises in a Map
+  Map<String, double> exerciseMap = {
+    "Running": 120.5,
+    "Cycling": 95.0,
+    "Push Ups": 40.0,
+    "Squats": 55.0,
+  };
+
+  // Lookup by Exercise Name
+  String searchExercise = "Running";
+  print("\nCalories per set for $searchExercise: "
+      "${exerciseMap[searchExercise]} cal");
+}

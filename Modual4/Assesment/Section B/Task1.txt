@@ -1,0 +1,41 @@
+void main() {
+  // Variable Declaration
+  int sessionId = 101;
+  String exerciseName = "Bench Press";
+  int setsCompleted = 4;
+  double caloriesBurned = 350.5;
+
+  // Session Status Code
+  int statusCode = 1;
+
+  // Session Summary
+  print("===== Workout Session Summary =====");
+  print("Session ID       : $sessionId");
+  print("Exercise Name    : $exerciseName");
+  print("Sets Completed   : $setsCompleted");
+  print("Calories Burned  : $caloriesBurned kcal");
+
+  // Intensity Tier
+  if (caloriesBurned > 500) {
+    print("Intensity Tier   : High Intensity");
+  } else if (caloriesBurned > 200) {
+    print("Intensity Tier   : Moderate");
+  } else {
+    print("Intensity Tier   : Light Activity");
+  }
+
+  // Completion Status
+  switch (statusCode) {
+    case 1:
+      print("Status           : Completed");
+      break;
+    case 2:
+      print("Status           : In Progress");
+      break;
+    case 3:
+      print("Status           : Skipped");
+      break;
+    default:
+      print("Status           : Invalid Status");
+  }
+}

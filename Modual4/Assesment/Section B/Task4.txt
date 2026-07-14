@@ -1,0 +1,125 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const FitPulseApp());
+}
+
+class FitPulseApp extends StatelessWidget {
+  const FitPulseApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "FitPulse",
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green,
+          secondary: Colors.orange,
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(fontSize: 18),
+        ),
+      ),
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  final String exerciseName = "Push Ups";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("FitPulse"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.green.shade100,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.fitness_center,
+                    size: 50,
+                    color: Colors.green,
+                  ),
+                  const SizedBox(width: 20),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "Push Ups",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text("Estimated Calories: 150 kcal"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WorkoutDetailScreen(
+                      exerciseName: exerciseName,
+                    ),
+                  ),
+                );
+              },
+              child: const Text("Start Workout"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class WorkoutDetailScreen extends StatelessWidget {
+  final String exerciseName;
+
+  const WorkoutDetailScreen({
+    super.key,
+    required this.exerciseName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(exerciseName),
+      ),
+      body: Center(
+        child: Text(
+          "Welcome to $exerciseName Workout!",
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
