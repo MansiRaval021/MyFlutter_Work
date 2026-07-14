@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+
+class TeamDetailsScreen extends StatelessWidget {
+  final String teamName;
+
+  const TeamDetailsScreen({
+    super.key,
+    required this.teamName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(teamName),
+        backgroundColor: Colors.blue,
+      ),
+      body: Center(
+        child: Text(
+          teamName,
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
