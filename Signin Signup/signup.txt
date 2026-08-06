@@ -1,0 +1,23 @@
+<?php
+ 
+ include('connection.php');
+
+ $name = $_POST['name'];
+ $surname = $_POST['surname'];
+ $email = $_POST['email'];
+ $pass = $_POST['password'];
+
+ if($name=="" || $surname=="" || $email=="" || $pass=="")
+ {
+    echo "Please Fill All The Fields";
+ }
+ else
+ {
+    $query = "insert into Mansi_signup(name,surname,email,password) values('$name','$surname','$email','$pass')";
+    mysqli_query($con,$query);
+    echo "You Have Successfully Registered";
+   
+ }
+
+
+?>
