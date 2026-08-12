@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+import 'database_helper.dart';
+
+class MoviesScreen extends StatefulWidget {
+  const MoviesScreen({super.key});
+
+  @override
+  State<MoviesScreen> createState() => _MoviesScreenState();
+}
+
+class _MoviesScreenState extends State<MoviesScreen> {
+  final movieController = TextEditingController();
+
+  List<String> movies = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadMovies();
+  }
+
+  Future<void> loadMovies() async {
+    final data = await DBHelper.getMovies();
+
+    setState(() {
+      movies = data;
+    });
+  }
+
+  Future<void> addMovie() async {
+    final title = movieController.text.trim();
+
+    if (title.isEmpty) return;
+
+    await DBHelper.insertMovie(title);
+
+    movieController.clear();
+
+    await loadMovies();
+  }
+
+  @override
+  void dispose() {
+    movieController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Movies'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: movieController,
+                    decoration: InputDecoration(
+                      hintText: 'Movie title',
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: addMovie,
+                  child: Text('Add'),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: movies.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(movies[index]),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

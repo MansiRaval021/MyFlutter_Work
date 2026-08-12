@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+import 'database_helper.dart';
+
+class MyOrdersList extends StatefulWidget {
+  const MyOrdersList({super.key});
+
+  @override
+  State<MyOrdersList> createState() => _MyOrdersListState();
+}
+
+class _MyOrdersListState extends State<MyOrdersList> {
+  final orderController = TextEditingController();
+
+  List<String> orders = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadOrders();
+  }
+
+  Future<void> loadOrders() async {
+    final data = await DBHelper.fetchOrdersAsync();
+
+    setState(() {
+      orders = data;
+    });
+  }
+
+  Future<void> addOrder() async {
+    final name = orderController.text.trim();
+
+    if (name.isEmpty) return;
+
+    await DBHelper.insertOrder(name);
+
+    orderController.clear();
+
+    // Fetch latest data after inserting.
+    await loadOrders();
+  }
+
+  @override
+  void dispose() {
+    orderController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Orders'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: orderController,
+                    decoration: InputDecoration(
+                      hintText: 'Order name',
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: addOrder,
+                  child: Text('Add'),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(orders[index]),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
