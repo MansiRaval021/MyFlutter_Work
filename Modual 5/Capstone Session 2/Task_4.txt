@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+
+class home extends StatefulWidget {
+  @override
+  State<home> createState() => _homeState();
+}
+
+class _homeState extends State<home> {
+  List restaurants = [];
+  bool loading = true;
+  String error = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadRestaurants();
+  }
+
+  Future<void> loadRestaurants() async {
+    setState(() {
+      loading = true;
+      error = '';
+    });
+
+    try {
+      await Future.delayed(Duration(seconds: 2));
+
+      // Test empty state:
+      // restaurants = [];
+
+      // Test error state:
+      // throw Exception();
+
+      restaurants = [
+        'Pizza Hut',
+        'Dominos',
+        'Burger King',
+        'Subway',
+      ];
+
+      setState(() {
+        loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        loading = false;
+        error = 'Something went wrong';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Restaurants'),
+      ),
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : error.isNotEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(error),
+                      ElevatedButton(
+                        onPressed: loadRestaurants,
+                        child: Text('Retry'),
+                      ),
+                    ],
+                  ),
+                )
+              : restaurants.isEmpty
+                  ? Center(
+                      child: Text('No restaurants found'),
+                    )
+                  : RefreshIndicator(
+                      onRefresh: loadRestaurants,
+                      child: ListView.builder(
+                        itemCount: restaurants.length,
+                        itemBuilder: (_, index) {
+                          return ListTile(
+                            title: Text(restaurants[index]),
+                          );
+                        },
+                      ),
+                    ),
+    );
+  }
+}

@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+
+class home extends StatefulWidget {
+  @override
+  State<home> createState() => _homeState();
+}
+
+class _homeState extends State<home> {
+  List playlists = [];
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadPlaylists();
+  }
+
+  Future<void> loadPlaylists() async {
+    // Simulate local storage loading
+    await Future.delayed(Duration(seconds: 2));
+
+    playlists = [
+      'My Favorites',
+      'Workout Music',
+      'Chill Songs',
+      'Party Mix',
+    ];
+
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Playlists'),
+      ),
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: playlists.length,
+              itemBuilder: (_, index) {
+                return ListTile(
+                  title: Text(playlists[index]),
+                );
+              },
+            ),
+    );
+  }
+}

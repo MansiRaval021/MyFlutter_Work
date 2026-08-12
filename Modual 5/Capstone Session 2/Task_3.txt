@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+
+class bookMovie extends StatefulWidget {
+  @override
+  State<bookMovie> createState() => _bookMovieeState();
+}
+
+class _bookMovieeState extends State<bookMovie> {
+  List movies = [];
+  bool loading = true;
+  String error = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadMovies();
+  }
+
+  Future<void> loadMovies() async {
+    setState(() {
+      loading = true;
+      error = '';
+    });
+
+    try {
+      await Future.delayed(Duration(seconds: 2));
+      movies = ['Avengers', 'Avatar', 'Inception'];
+
+      setState(() {
+        loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        loading = false;
+        error = 'Failed to load movies';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Movies'),
+      ),
+      body: loading
+          ? Center(child: CircularProgressIndicator())
+          : error.isNotEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(error),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: loadMovies,
+                        child: Text('Retry'),
+                      ),
+                    ],
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: movies.length,
+                  itemBuilder: (_, index) {
+                    return ListTile(
+                      title: Text(movies[index]),
+                    );
+                  },
+                ),
+    );
+  }
+}
