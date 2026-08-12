@@ -1,0 +1,116 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class DatabaseHelper {
+  static Database? database;
+
+
+  static Future<Database> getDatabase() async {
+    if (database != null) {
+      return database!;
+    }
+
+    String path = join(await getDatabasesPath(), 'restaurant.db');
+
+    database = await openDatabase(
+      path,
+      version: 1,
+      onCreate: (db, version) async {
+        String createRestaurantTable = '''
+        CREATE TABLE Restaurants (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          location TEXT NOT NULL,
+          rating REAL
+        )
+        ''';
+
+        await db.execute(createRestaurantTable);
+      },
+    );
+
+    return database!;
+  }
+
+  static Future<void> addRestaurant(
+    String name,
+    String location,
+    double rating,
+  ) async {
+    Database db = await getDatabase();
+
+    await db.insert(
+      'Restaurants',
+      {
+        'name': name,
+        'location': location,
+        'rating': rating,
+      },
+    );
+  }
+
+  static Future<List<Map<String, dynamic>>> getRestaurants() async {
+    Database db = await getDatabase();
+
+    return await db.query('Restaurants');
+  }
+}
+
+class RestaurantScreen extends StatefulWidget {
+  const RestaurantScreen({super.key});
+
+  @override
+  State<RestaurantScreen> createState() => _RestaurantScreenState();
+}
+
+class _RestaurantScreenState extends State<RestaurantScreen> {
+  List<Map<String, dynamic>> restaurants = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadRestaurants();
+  }
+
+  Future<void> loadRestaurants() async {
+    restaurants = await DatabaseHelper.getRestaurants();
+
+   
+    if (restaurants.isEmpty) {
+      await DatabaseHelper.addRestaurant('Pizza Hut','Rajkot',4.5,);
+
+      await DatabaseHelper.addRestaurant('Dominos','Ahmedabad',4.3,);
+
+      await DatabaseHelper.addRestaurant('Subway','Surat',4.2,);
+
+      restaurants = await DatabaseHelper.getRestaurants();
+    }
+
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Restaurants'),
+      ),
+      body: ListView.builder(
+        itemCount: restaurants.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: Icon(Icons.restaurant),
+            title: Text(restaurants[index]['name']),
+            subtitle: Text(
+              restaurants[index]['location'],
+            ),
+            trailing: Text(
+              restaurants[index]['rating'].toString(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

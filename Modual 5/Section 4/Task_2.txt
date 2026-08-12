@@ -1,0 +1,9 @@
+class DatabaseHelper {
+  static String createPlaylistsTable = '''
+    CREATE TABLE playlists (
+      id INT PRIMARY KEY,
+      name VARCHAR,
+      songCount INT
+    )
+  ''';
+}

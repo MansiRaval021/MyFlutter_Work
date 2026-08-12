@@ -1,0 +1,112 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  bool rememberMe = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUsername();
+  }
+
+  Future loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? username = prefs.getString('username');
+
+    if (username != null) {
+      usernameController.text = username;
+
+      setState(() {
+        rememberMe = true;
+      });
+    }
+  }
+
+
+  Future login() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (rememberMe) {
+      await prefs.setString(
+        'username',
+        usernameController.text,
+      );
+    } else {
+      await prefs.remove('username');
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Login successful'),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: usernameController,
+              decoration: InputDecoration(
+                labelText: 'Username',
+              ),
+            ),
+
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+              ),
+            ),
+
+            Row(
+              children: [
+                Checkbox(
+                  value: rememberMe,
+                  onChanged: (value) {
+                    setState(() {
+                      rememberMe = value ?? false;
+                    });
+                  },
+                ),
+                const Text('Remember Me'),
+              ],
+            ),
+
+            ElevatedButton(
+              onPressed: login,
+              child: Text('Login'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

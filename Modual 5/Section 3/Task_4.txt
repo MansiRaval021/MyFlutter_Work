@@ -1,0 +1,8 @@
+A SQLite table is similar to a Flipkart order history. The table stores all the orders, each row represents one order, and the columns store details like 
+Order ID, product name, price, and order date.
+
+for ex:
+
+table: The complete order history.
+rows: Each row represents one order.
+columns: Store details like Order ID, Product Name, Price, and Order Date.

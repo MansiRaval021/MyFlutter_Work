@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'database_helper.dart';
+
+class MyOrdersList extends StatefulWidget {
+  const MyOrdersList({super.key});
+
+  @override
+  State<MyOrdersList> createState() => _MyOrdersListState();
+}
+
+class _MyOrdersListState extends State<MyOrdersList> {
+  List<Map<String, dynamic>> orders = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadOrders();
+  }
+
+  Future loadOrders() async {
+    final data = await DatabaseHelper.getOrders();
+
+    setState(() {
+      orders = data;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Orders'),
+      ),
+      body: ListView.builder(
+        itemCount: orders.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: Icon(Icons.fastfood),
+            title: Text(orders[index]['name']),
+          );
+        },
+      ),
+    );
+  }
+}

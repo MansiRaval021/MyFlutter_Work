@@ -1,0 +1,5 @@
+Hive and SQLite are used to store data, but they work differently. 
+Hive is good for simple data like saving a user's dark mode setting or username. 
+SQLite is better for structured data with relationships. 
+For example, in a Swiggy app, SQLite can store restaurants, orders, and food items in different tables. 
+So, I would use Hive for simple data and SQLite for more complex data.

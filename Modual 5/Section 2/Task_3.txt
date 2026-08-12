@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class theme extends StatefulWidget {
+  const theme({super.key});
+
+  @override
+  State<theme> createState() => _themeState();
+}
+
+class _themeState extends State<theme> {
+  bool isDarkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadTheme();
+  }
+
+  Future loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      isDarkMode = prefs.getBool('isDarkMode') ?? false;
+    });
+  }
+
+  Future changeTheme(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setBool('isDarkMode', value);
+
+    setState(() {
+      isDarkMode = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Theme Settings'),
+          actions: [
+            Switch(
+              value: isDarkMode,
+              onChanged: changeTheme,
+            ),
+          ],
+        ),
+        body: Center(
+          child: Text(
+            isDarkMode ? 'Dark Mode' : 'Light Mode',
+          ),
+        ),
+      ),
+    );
+  }
+}

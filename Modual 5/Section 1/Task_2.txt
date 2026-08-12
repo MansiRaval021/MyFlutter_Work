@@ -1,0 +1,130 @@
+import 'package:flutter/material.dart';
+
+class WishlistScreen extends StatefulWidget {
+  const WishlistScreen({super.key});
+
+  @override
+  State<WishlistScreen> createState() => _WishlistScreenState();
+}
+
+class _WishlistScreenState extends State<WishlistScreen> {
+  final List<String> products = [
+    'Wireless Headphones',
+    'Smart Watch',
+    'Running Shoes',
+    'Laptop Backpack',
+    'Bluetooth Speaker',
+  ];
+
+  // Temporary wishlist storage
+  final List<String> wishlist = [];
+
+  void toggleWishlist(String product) {
+    setState(() {
+      if (wishlist.contains(product)) {
+        wishlist.remove(product);
+      } else {
+        wishlist.add(product);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:   Text('My Shopping App'),
+        actions: [
+          Stack(
+            children: [
+              IconButton(
+                icon:   Icon(Icons.favorite),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title:   Text('Wishlist'),
+                        content: wishlist.isEmpty
+                            ?   Text('No products in wishlist')
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: wishlist
+                                    .map((item) => ListTile(
+                                          leading:   Icon(
+                                            Icons.favorite,
+                                          ),
+                                          title: Text(item),
+                                        ))
+                                    .toList(),
+                              ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child:   Text('Close'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+              if (wishlist.isNotEmpty)
+                Positioned(
+                  right: 5,
+                  top: 5,
+                  child: CircleAvatar(
+                    radius: 9,
+                    child: Text(
+                      '${wishlist.length}',
+                      style:   TextStyle(fontSize: 11),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
+
+      body: ListView.builder(
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          final product = products[index];
+          final isFavorite = wishlist.contains(product);
+
+          return Card(
+            margin:   EdgeInsets.all(8),
+            child: ListTile(
+              leading:   Icon(
+                Icons.shopping_bag,
+                size: 40,
+              ),
+
+              title: Text(
+                product,
+                style:   TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              subtitle:   Text('Available on Flipkart'),
+
+              trailing: IconButton(
+                icon: Icon(
+                  isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                ),
+                onPressed: () {
+                  toggleWishlist(product);
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

@@ -1,0 +1,106 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class theme extends StatefulWidget {
+  const theme({super.key});
+
+  @override
+  State<theme> createState() => _themeState();
+}
+
+class _themeState extends State<theme> {
+  bool isDarkMode = false;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadTheme();
+  }
+
+  Future<void> loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      isDarkMode = prefs.getBool('darkMode') ?? false;
+      isLoading = false;
+    });
+  }
+
+  Future<void> changeTheme(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setBool('darkMode', value);
+
+    setState(() {
+      isDarkMode = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading) {
+      return   MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
+      theme: ThemeData(
+        brightness: Brightness.light,
+        useMaterial3: true,
+      ),
+
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        useMaterial3: true,
+      ),
+
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+
+      home: SettingsScreen(
+        isDarkMode: isDarkMode,
+        onThemeChanged: changeTheme,
+      ),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  final bool isDarkMode;
+  final Function(bool) onThemeChanged;
+
+    SettingsScreen({
+    super.key,
+    required this.isDarkMode,
+    required this.onThemeChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:   Text('Settings'),
+      ),
+
+      body: ListView(
+        children: [
+          SwitchListTile(
+            title:   Text('Dark Mode'),
+            subtitle:   Text('Use dark theme'),
+            secondary:   Icon(Icons.dark_mode),
+            value: isDarkMode,
+            onChanged: onThemeChanged,
+          ),
+        ],
+      ),
+    );
+  }
+}
+```

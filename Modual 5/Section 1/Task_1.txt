@@ -1,0 +1,8 @@
+Zomato – Saved Addresses & Cart
+Local storage can keep saved addresses and cart items on the device, so users can still view or manage them when the internet is temporarily unavailable.
+
+WhatsApp – Chat Messages
+WhatsApp stores messages locally on the phone, allowing users to read previously loaded chats even without an internet connection.
+
+Spotify – Downloaded Music
+Spotify stores downloaded songs locally, allowing users to listen to their playlists offline without an active internet connection.

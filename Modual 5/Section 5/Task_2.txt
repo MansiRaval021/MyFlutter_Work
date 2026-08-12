@@ -1,0 +1,99 @@
+import 'package:flutter/material.dart';
+import 'database_helper.dart';
+
+class SavedPlaylistsScreen extends StatefulWidget {
+  const SavedPlaylistsScreen({super.key});
+
+  @override
+  State<SavedPlaylistsScreen> createState() =>
+      _SavedPlaylistsScreenState();
+}
+
+class _SavedPlaylistsScreenState extends State<SavedPlaylistsScreen> {
+  final TextEditingController nameController = TextEditingController();
+
+  List<Map<String, dynamic>> playlists = [];
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadPlaylists();
+  }
+
+  Future loadPlaylists() async 
+  {
+    final data = await DatabaseHelper.getPlaylists();
+
+    setState(() {
+      playlists = data;
+    });
+  }
+
+  Future addPlaylist() async {
+    if (nameController.text.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    await DatabaseHelper.insertPlaylist(nameController.text);
+
+    nameController.clear();
+
+    await loadPlaylists();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Saved Playlists'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(
+                labelText: 'Playlist Name',
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            ElevatedButton(
+              onPressed: isLoading ? null : addPlaylist,
+              child: isLoading
+                  ? CircularProgressIndicator()
+                  : Text('Add Playlist'),
+            ),
+
+            const SizedBox(height: 10),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: playlists.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: Icon(Icons.music_note),
+                    title: Text(playlists[index]['name']),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

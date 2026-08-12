@@ -1,0 +1,143 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class NewsScreen extends StatefulWidget {
+  const NewsScreen({super.key});
+
+  @override
+  State<NewsScreen> createState() => _NewsScreenState();
+}
+
+class _NewsScreenState extends State<NewsScreen> {
+  List<String> headlines = [];
+  bool isLoading = true;
+  bool isOffline = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadNews();
+  }
+
+  // Mock API
+  Future<List<String>> fetchNewsFromApi() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Simulate API response
+    return [
+      'Flutter 4.0 Released With New Features',
+      'Technology Companies Invest More in AI',
+      'New Smartphone Models Launch This Week',
+      'Developers Prefer Cross-Platform Frameworks',
+      'Cloud Computing Market Continues to Grow',
+    ];
+  }
+
+  Future<void> loadNews() async {
+    setState(() {
+      isLoading = true;
+      isOffline = false;
+    });
+
+    try {
+      // Fetch data from mock API
+      List<String> news = await fetchNewsFromApi();
+
+      // Save headlines locally
+      SharedPreferences prefs =
+          await SharedPreferences.getInstance();
+
+      await prefs.setString(
+        'cached_news',
+        jsonEncode(news),
+      );
+
+      setState(() {
+        headlines = news;
+        isLoading = false;
+      });
+    } catch (e) {
+      // If API fails, load cached headlines
+      SharedPreferences prefs =
+          await SharedPreferences.getInstance();
+
+      String? cachedNews = prefs.getString('cached_news');
+
+      if (cachedNews != null) {
+        List<dynamic> data = jsonDecode(cachedNews);
+
+        setState(() {
+          headlines = data.cast<String>();
+          isOffline = true;
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          headlines = [];
+          isOffline = true;
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('News Feed'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: loadNews,
+          ),
+        ],
+      ),
+
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              children: [
+                if (isOffline)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    color: Colors.orange.shade100,
+                    child: const Text(
+                      'Offline - Showing cached news',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+
+                Expanded(
+                  child: headlines.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'No news available',
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: headlines.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              margin: const EdgeInsets.all(8),
+                              child: ListTile(
+                                leading: const Icon(
+                                  Icons.article,
+                                ),
+                                title: Text(
+                                  headlines[index],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                ),
+              ],
+            ),
+    );
+  }
+}
