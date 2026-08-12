@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+
+class SavedMovies extends StatefulWidget {
+  final Database db;
+
+  SavedMovies({required this.db});
+
+  @override
+  State<SavedMovies> createState() => _SavedMoviesState();
+}
+
+class _SavedMoviesState extends State<SavedMovies> {
+  List movies = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadMovies();
+  }
+
+  loadMovies() async {
+    movies = await widget.db.query('saved_movies');
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Saved Movies'),
+      ),
+      body: ListView.builder(
+        itemCount: movies.length,
+        itemBuilder: (_, i) {
+          return ListTile(
+            leading: Icon(Icons.movie),
+            title: Text(movies[i]['title']),
+          );
+        },
+      ),
+    );
+  }
+}

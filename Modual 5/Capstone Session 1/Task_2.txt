@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class Movies extends StatefulWidget {
+  @override
+  State<Movies> createState() => _MoviesState();
+}
+
+class _MoviesState extends State<Movies> {
+  late Database db;
+
+  List movies = [
+    {'id': 1, 'title': 'Avatar'},
+    {'id': 2, 'title': 'Titanic'},
+    {'id': 3, 'title': 'Inception'},
+    {'id': 4, 'title': 'Interstellar'},
+    {'id': 5, 'title': 'Avengers'},
+  ];
+
+  List saved = [];
+
+  @override
+  void initState() {
+    super.initState();
+    openDB();
+  }
+
+  openDB() async {
+    db = await openDatabase(
+      join(await getDatabasesPath(), 'movies.db'),
+      version: 1,
+      onCreate: (db, v) {
+        return db.execute(
+          'CREATE TABLE saved_movies(id INTEGER PRIMARY KEY, title TEXT, posterUrl TEXT)',
+        );
+      },
+    );
+
+    saved = await db.query('saved_movies');
+    setState(() {});
+  }
+
+  save(movie) async {
+    bool isSaved = saved.any((x) => x['id'] == movie['id']);
+
+    if (isSaved) {
+      await db.delete(
+        'saved_movies',
+        where: 'id=?',
+        whereArgs: [movie['id']],
+      );
+    } else {
+      await db.insert('saved_movies', {
+        'id': movie['id'],
+        'title': movie['title'],
+        'posterUrl': '',
+      });
+    }
+
+    saved = await db.query('saved_movies');
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Movies')),
+      body: ListView.builder(
+        itemCount: movies.length,
+        itemBuilder: (_, i) {
+          var movie = movies[i];
+
+          bool isSaved = saved.any(
+            (x) => x['id'] == movie['id'],
+          );
+
+          return ListTile(
+            title: Text(movie['title']),
+            trailing: IconButton(
+              icon: Icon(
+                isSaved ? Icons.favorite : Icons.favorite_border,
+                color: isSaved ? Colors.red : null,
+              ),
+              onPressed: () => save(movie),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

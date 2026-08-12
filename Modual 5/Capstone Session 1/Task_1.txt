@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    createDatabase();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Saved Movies'),
+      ),
+      body: Center(
+        child: Text('Database Created'),
+      ),
+    );
+  }
+}
+
+Future<void> createDatabase() async {
+  final path = join(
+    await getDatabasesPath(),
+    'movies.db',
+  );
+
+  await openDatabase(
+    path,
+    version: 1,
+    onCreate: (db, version) {
+      db.execute(
+        'CREATE TABLE saved_movies('
+        'id INTEGER PRIMARY KEY, '
+        'title TEXT, '
+        'posterUrl TEXT'
+        ')',
+      );
+    },
+  );
+
+  print('saved_movies table created');
+}

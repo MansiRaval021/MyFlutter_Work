@@ -1,0 +1,23 @@
+import 'package:sqflite/sqflite.dart';
+
+class SavedMovieService {
+  Database db;
+
+  SavedMovieService(this.db);
+
+  Future<void> addMovie(Map movie) async {
+    await db.insert('saved_movies', movie);
+  }
+
+  Future<void> removeMovie(int id) async {
+    await db.delete(
+      'saved_movies',
+      where: 'id=?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> getAllSavedMovies() async {
+    return await db.query('saved_movies');
+  }
+}
