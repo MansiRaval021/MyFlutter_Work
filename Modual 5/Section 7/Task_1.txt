@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  late Database db;
+
+  @override
+  void initState() {
+    super.initState();
+    start();
+  }
+
+  start() async {
+    db = await openDatabase(
+      join(await getDatabasesPath(), 'food.db'),
+      version: 1,
+      onCreate: (db, version) {
+        return db.execute(
+          'CREATE TABLE food(id INTEGER PRIMARY KEY, name TEXT)',
+        );
+      },
+    );
+
+    getData();
+  }
+
+  getData() async {
+    try {
+      var data = await db.query('food');
+      print(data);
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: getData,
+          child: Text('Get Data'),
+        ),
+      ),
+    );
+  }
+}

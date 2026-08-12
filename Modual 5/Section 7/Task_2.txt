@@ -1,0 +1,71 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  late Database db;
+  List products = [];
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    db = await openDatabase(
+      join(await getDatabasesPath(), 'products.db'),
+      version: 1,
+      onCreate: (db, version) async {
+        await db.execute(
+          'CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, price TEXT)',
+        );
+
+        await db.insert('products', {
+          'name': 'Mobile Phone',
+          'price': '₹15,000',
+        });
+
+        await db.insert('products', {
+          'name': 'Laptop',
+          'price': '₹50,000',
+        });
+      },
+    );
+
+    products = await db.query('products');
+
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Products'),
+      ),
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: Icon(Icons.shopping_bag),
+                  title: Text(products[index]['name']),
+                  subtitle: Text(products[index]['price']),
+                );
+              },
+            ),
+    );
+  }
+}

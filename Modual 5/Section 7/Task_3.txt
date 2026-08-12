@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  late Database db;
+  List items = [];
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    db = await openDatabase(
+      join(await getDatabasesPath(), 'playlist.db'),
+      version: 1,
+      onCreate: (db, version) {
+        return db.execute(
+          'CREATE TABLE playlists(id INTEGER PRIMARY KEY, name TEXT)',
+        );
+      },
+    );
+
+    items = await db.query('playlists');
+
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Playlists'),
+      ),
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : items.isEmpty
+              ? Center(
+                  child: Text(
+                    'No items found',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: Icon(Icons.music_note),
+                      title: Text(items[index]['name']),
+                    );
+                  },
+                ),
+    );
+  }
+}

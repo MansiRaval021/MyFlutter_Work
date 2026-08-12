@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+
+class PointsPage extends StatefulWidget {
+  @override
+  State<PointsPage> createState() => _PointsPageState();
+}
+
+class _PointsPageState extends State<PointsPage> {
+  int points = 100;
+
+  Future<void> addPoints(int value) async {
+    await Future.delayed(Duration(seconds: 1));
+
+    points += value;
+
+    setState(() {});
+  }
+
+  Future<void> updatePoints() async {
+    await addPoints(50);
+    await addPoints(30);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Rewards'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Points: $points',
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: updatePoints,
+              child: Text('Add Points'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
