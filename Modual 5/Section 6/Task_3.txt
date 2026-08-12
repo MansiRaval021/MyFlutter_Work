@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class RestaurantPage extends StatefulWidget {
+  @override
+  State<RestaurantPage> createState() => _RestaurantPageState();
+}
+
+class _RestaurantPageState extends State<RestaurantPage> {
+  late Database db;
+  List data = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    db = await openDatabase(
+      join(await getDatabasesPath(), 'food.db'),
+      version: 1,
+      onCreate: (db, v) => db.execute(
+        'CREATE TABLE food(id INTEGER PRIMARY KEY, name TEXT, cuisine TEXT)',
+      ),
+    );
+
+    data = await db.query('food');
+    setState(() {});
+  }
+
+  delete(item) async {
+    await db.delete(
+      'food',
+      where: 'id=?',
+      whereArgs: [item['id']],
+    );
+
+    setState(() {
+      data.remove(item);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${item['name']} deleted'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () async {
+            await db.insert('food', item);
+
+            setState(() {
+              data.add(item);
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Restaurants'),
+      ),
+      body: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (_, i) {
+          var item = data[i];
+
+          return Dismissible(
+            key: Key(item['id'].toString()),
+            onDismissed: (_) => delete(item),
+            background: Container(
+              color: Colors.red,
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ),
+            child: ListTile(
+              title: Text(item['name']),
+              subtitle: Text(item['cuisine']),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class RestaurantPage extends StatefulWidget {
+  @override
+  State<RestaurantPage> createState() => _RestaurantPageState();
+}
+
+class _RestaurantPageState extends State<RestaurantPage> {
+  late Database db;
+  List data = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    db = await openDatabase(
+      join(await getDatabasesPath(), 'food.db'),
+      version: 1,
+      onCreate: (db, v) => db.execute(
+        'CREATE TABLE food(id INTEGER PRIMARY KEY, name TEXT, cuisine TEXT)',
+      ),
+    );
+
+    data = await db.query('food');
+    setState(() {});
+  }
+
+  updateRestaurant(item, name, cuisine) async {
+    await db.update(
+      'food',
+      {
+        'name': name,
+        'cuisine': cuisine,
+      },
+      where: 'id=?',
+      whereArgs: [item['id']],
+    );
+
+    // Refresh UI
+    data = await db.query('food');
+    setState(() {});
+  }
+
+  deleteRestaurant(item) async {
+    await db.delete(
+      'food',
+      where: 'id=?',
+      whereArgs: [item['id']],
+    );
+
+    // Refresh UI
+    data = await db.query('food');
+    setState(() {});
+  }
+
+  edit(item) {
+    TextEditingController name =
+        TextEditingController(text: item['name']);
+
+    TextEditingController cuisine =
+        TextEditingController(text: item['cuisine']);
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Edit Restaurant'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(controller: name),
+            TextField(controller: cuisine),
+          ],
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              updateRestaurant(
+                item,
+                name.text,
+                cuisine.text,
+              );
+              Navigator.pop(context);
+            },
+            child: Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Restaurants'),
+      ),
+      body: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (_, i) {
+          var item = data[i];
+
+          return Dismissible(
+            key: Key(item['id'].toString()),
+            onDismissed: (_) {
+              deleteRestaurant(item);
+            },
+            background: Container(color: Colors.red),
+            child: ListTile(
+              title: Text(item['name']),
+              subtitle: Text(item['cuisine']),
+              trailing: IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () => edit(item),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

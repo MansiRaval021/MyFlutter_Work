@@ -1,0 +1,104 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class RestaurantPage extends StatefulWidget {
+  @override
+  State<RestaurantPage> createState() => _RestaurantPageState();
+}
+
+class _RestaurantPageState extends State<RestaurantPage> {
+  late Database db;
+  List data = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    db = await openDatabase(
+      join(await getDatabasesPath(), 'food.db'),
+      onCreate: (db, v) => db.execute(
+        'CREATE TABLE food(id INTEGER PRIMARY KEY, name TEXT, cuisine TEXT)',
+      ),
+      version: 1,
+    );
+
+    data = await db.query('food');
+    setState(() {});
+  }
+
+  edit(item) {
+    TextEditingController name =
+        TextEditingController(text: item['name']);
+    TextEditingController cuisine =
+        TextEditingController(text: item['cuisine']);
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Edit Restaurant'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(controller: name),
+            TextField(controller: cuisine),
+          ],
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () async {
+              await db.update(
+                'food',
+                {
+                  'name': name.text,
+                  'cuisine': cuisine.text,
+                },
+                where: 'id=?',
+                whereArgs: [item['id']],
+              );
+
+              Navigator.pop(context);
+              getData();
+            },
+            child: Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  delete(id) async {
+    await db.delete('food', where: 'id=?', whereArgs: [id]);
+    getData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Restaurants')),
+      body: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (_, i) {
+          var item = data[i];
+
+          return Dismissible(
+            key: Key(item['id'].toString()),
+            onDismissed: (_) => delete(item['id']),
+            background: Container(color: Colors.red),
+            child: ListTile(
+              title: Text(item['name']),
+              subtitle: Text(item['cuisine']),
+              trailing: IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () => edit(item),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
