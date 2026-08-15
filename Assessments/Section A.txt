@@ -1,0 +1,596 @@
+Question: Justify the choice of GridView.builder for the Home tab and ListView.builder for the
+Search results screen. Explain how the crossAxisCount and itemExtent properties affect scroll
+performance, and describe what happens if Column is used instead of a builder constructor for
+a list of 200 items.
+
+
+For the restaurant browsing screen, GridView.builder is the better choice for the Home tab because restaurants need to be displayed in a two-column grid. It creates grid items lazily, meaning Flutter builds only the widgets that are currently needed on screen instead of creating all restaurant cards at once.
+
+For the Search results screen, ListView.builder is appropriate because search results are displayed as a single-column vertical list. It also uses lazy loading, making it efficient when the search returns a large number of restaurants.
+
+1. Why use GridView.builder on the Home tab?
+
+A two-column layout can be created using:
+
+GridView.builder(
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+  ),
+  itemCount: restaurants.length,
+  itemBuilder: (context, index) {
+    return RestaurantCard(
+      restaurant: restaurants[index],
+    );
+  },
+);
+
+crossAxisCount: 2 tells Flutter to create two columns across the available width.
+
+This is suitable for a food delivery Home screen because restaurant cards can show information such as an image, name, rating, cuisine, and delivery time in a compact layout.
+
+2. Why use ListView.builder for Search?
+
+Search results are usually easier to scan in a single-column list:
+
+ListView.builder(
+  itemCount: restaurants.length,
+  itemBuilder: (context, index) {
+    return RestaurantListTile(
+      restaurant: restaurants[index],
+    );
+  },
+);
+
+Each restaurant gets one row, making it easier to display more information such as distance, rating, offers, delivery time, and cuisine.
+
+3. Effect of crossAxisCount
+
+crossAxisCount controls the number of items displayed across the grid.
+
+crossAxisCount: 2
+
+means:
+
+┌──────────┐ ┌──────────┐
+│Restaurant│ │Restaurant│
+│    1     │ │    2     │
+└──────────┘ └──────────┘
+
+┌──────────┐ ┌──────────┐
+│Restaurant│ │Restaurant│
+│    3     │ │    4     │
+└──────────┘ └──────────┘
+
+Changing it to 3 would create three columns.
+
+crossAxisCount mainly affects layout and the number of children visible per row, rather than directly making scrolling faster or slower. With a builder, however, Flutter still benefits from lazy construction, so only the necessary grid children are built.
+
+4. Effect of itemExtent
+
+For a ListView.builder, itemExtent specifies a fixed height for each item:
+
+ListView.builder(
+  itemExtent: 100,
+  itemCount: restaurants.length,
+  itemBuilder: (context, index) {
+    return RestaurantListTile(
+      restaurant: restaurants[index],
+    );
+  },
+);
+
+If every restaurant row is exactly 100 logical pixels high, Flutter knows the position and size of each item without having to measure every child.
+
+This can improve scrolling and layout performance, particularly for large lists, because Flutter can estimate scroll positions more efficiently.
+
+For variable-height restaurant cards, itemExtent should not be used unless a fixed height is appropriate.
+
+5. What happens if Column is used for 200 restaurants?
+
+Using:
+
+Column(
+  children: restaurants.map(
+    (restaurant) => RestaurantCard(
+      restaurant: restaurant,
+    ),
+  ).toList(),
+)
+
+creates widgets for all 200 restaurants immediately.
+
+A Column itself does not provide scrolling. If the content is taller than the screen, it can produce a RenderFlex overflow unless it is placed inside something like SingleChildScrollView.
+
+Even with:
+
+SingleChildScrollView(
+  child: Column(
+    children: ...
+  ),
+)
+
+all 200 restaurant widgets are still created at once. This can consume more memory and increase the initial build/layout cost.
+
+By comparison:
+
+Column
+  ↓
+Build all 200 items
+  ↓
+Higher memory/build cost
+
+ListView.builder
+  ↓
+Build visible/needed items lazily
+  ↓
+Better for large lists
+Conclusion
+
+GridView.builder is ideal for the Home tab because it provides a two-column, scrollable grid and lazily builds restaurant cards. ListView.builder is ideal for Search results because it provides a single-column, scrollable list and efficiently handles large result sets.
+
+crossAxisCount controls the number of grid columns, while itemExtent gives a list a predictable fixed item size that can improve layout/scroll calculations. For 200 restaurants, a builder constructor is preferred over Column because builders create items lazily and therefore provide better memory usage and performance.
+
+
+Question: How does maintaining selectedIndex using setState in the parent widget differ from
+managing it through a Provider? What specific problem arises when setState alone is used and
+the user deep-links directly into the Orders tab from a push notification?
+
+
+
+### Answer
+
+In this food delivery app, the `BottomNavigationBar` can contain four sections:
+
+```text
+Home | Search | Orders | Profile
+```
+
+The selected tab can be managed either with `setState` in the parent widget or with a state-management solution such as `Provider`.
+
+### 1. Managing `selectedIndex` with `setState`
+
+A simple implementation is:
+
+```dart
+int selectedIndex = 0;
+
+void onTabSelected(int index) {
+  setState(() {
+    selectedIndex = index;
+  });
+}
+```
+
+The parent widget owns the selected index and rebuilds when the user taps another tab.
+
+```dart
+Scaffold(
+  body: screens[selectedIndex],
+
+  bottomNavigationBar: BottomNavigationBar(
+    currentIndex: selectedIndex,
+    onTap: onTabSelected,
+    items: const [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        label: 'Home',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.search),
+        label: 'Search',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.receipt),
+        label: 'Orders',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: 'Profile',
+      ),
+    ],
+  ),
+);
+```
+
+This approach is simple and works well when the selected tab is needed only by that parent widget.
+
+### 2. Managing `selectedIndex` with Provider
+
+With `Provider`, the navigation state can be placed in a separate state-management class:
+
+```dart
+class NavigationProvider extends ChangeNotifier {
+  int selectedIndex = 0;
+
+  void changeTab(int index) {
+    selectedIndex = index;
+    notifyListeners();
+  }
+}
+```
+
+The `BottomNavigationBar` and other widgets can access the same state through `Provider`.
+
+This becomes useful when multiple parts of the application need to know or change the selected tab without passing callbacks through several widget levels.
+
+### 3. Main Difference
+
+| `setState`                                                    | `Provider`                             |
+| ------------------------------------------------------------- | -------------------------------------- |
+| State belongs to a widget                                     | State is separated into a provider     |
+| Simple for local UI state                                     | Better for shared application state    |
+| Rebuilds the associated `State` widget subtree                | Only listening widgets need to rebuild |
+| Can require callbacks when state is needed deeper in the tree | Any descendant can access the provider |
+| Easy for small applications                                   | Scales better as the application grows |
+
+For a simple four-tab application, `setState` can be perfectly acceptable. If navigation state needs to be coordinated with notifications, authentication, orders, or other application-wide state, Provider provides a cleaner architecture.
+
+### 4. Problem with `setState` and Deep Linking
+
+The important issue occurs when a push notification opens the **Orders** section directly.
+
+Suppose the application starts with:
+
+```dart
+int selectedIndex = 0;
+```
+
+This means the initial tab is always **Home**.
+
+Now imagine the user receives:
+
+> "Your order has been delivered."
+
+They tap the notification, and the app should open:
+
+```text
+Orders
+```
+
+which corresponds to:
+
+```dart
+selectedIndex = 2;
+```
+
+If the navigation state exists only inside the parent widget and the notification/deep-link handling happens elsewhere, the deep-link handler has no clean way to update that local `selectedIndex`.
+
+The result can be:
+
+```text
+Push Notification
+       ↓
+Orders deep link
+       ↓
+App opens
+       ↓
+selectedIndex is still 0
+       ↓
+Home tab appears ❌
+```
+
+The deep link and the BottomNavigationBar can therefore become **out of sync**.
+
+### 5. Why Provider Helps
+
+With Provider, the navigation state can be shared:
+
+```text
+              NavigationProvider
+                     │
+          selectedIndex = 2
+              /      |      \
+             ↓       ↓       ↓
+     BottomNavigationBar   Deep Link
+             │               │
+             └───────┬───────┘
+                     ↓
+                 Orders
+```
+
+The push-notification handler can update the shared navigation state:
+
+```dart
+context.read<NavigationProvider>().changeTab(2);
+```
+
+and the BottomNavigationBar automatically reflects the same state.
+
+### 6. Long-Press Favourites
+
+The long-press requirement is separate from navigation state. A food card can use:
+
+```dart
+GestureDetector(
+  onLongPress: () {
+    // Add food item to favourites
+  },
+  child: FoodItemCard(),
+)
+```
+
+For a small screen, this favourite state could also use `setState`. If favourites need to be accessed by Home, Search, and Profile—or persisted locally—using a dedicated provider/repository is more scalable.
+
+### Conclusion
+
+`setState` is suitable for simple, local `selectedIndex` management, but it becomes problematic when an external event such as a **push notification deep link** needs to change the selected tab. The local state may remain at Home (`0`) even though the deep link intends to open Orders (`2`).
+
+Using **Provider** makes the navigation state shared and accessible to both the notification/deep-link logic and the BottomNavigationBar, keeping the UI synchronized.
+
+
+Question: Explain why SharedPreferences is appropriate for storing the last delivery address but
+not for the order history. What specific structural limitation of SharedPreferences causes it to fail
+when the data has multiple fields per record, and what does SQLite offer that resolves this?
+
+### Answer
+
+For this food delivery app, **SharedPreferences** is a good choice for storing the user's last selected delivery address, while **SQLite** is more suitable for maintaining a complete order history.
+
+### 1. Why SharedPreferences is suitable for the delivery address
+
+The last selected address is a small amount of simple preference data. For example:
+
+```text id="1e5b2h"
+lastAddress = "123, Main Road, Rajkot"
+```
+
+SharedPreferences is designed to store simple key-value data such as:
+
+```dart
+prefs.setString('lastAddress', address);
+```
+
+It is lightweight and easy to read when the application starts.
+
+### 2. Why SharedPreferences is not suitable for order history
+
+An order contains multiple pieces of related information:
+
+```text id="1apg7f"
+Order
+ ├── Item Name
+ ├── Quantity
+ ├── Price
+ ├── Order Date/Time
+ └── Order ID
+```
+
+And the application may have hundreds or thousands of orders.
+
+SharedPreferences does not provide a proper relational structure for this kind of data. It primarily stores **key-value pairs**, with supported primitive values such as `String`, `int`, `double`, `bool`, and lists of strings.
+
+You could technically serialize a list of orders into JSON and store it as one large String, but then you would have to manually handle serialization, updating individual records, searching, sorting, and deleting records.
+
+### 3. Structural limitation of SharedPreferences
+
+The key limitation is that SharedPreferences does **not provide rows, columns, or relationships between records**.
+
+For example, it does not naturally support a structure like:
+
+```text
+Orders Table
+------------------------------------------------
+id | item_name | quantity | price | timestamp
+------------------------------------------------
+1  | Pizza     | 2        | 400   | 10:30
+2  | Burger    | 1        | 150   | 12:15
+3  | Pasta     | 3        | 450   | 18:20
+```
+
+Instead, SharedPreferences works more like:
+
+```text
+"lastAddress" → "123, Main Road"
+"isDarkMode"  → true
+"userName"    → "Mansi"
+```
+
+This makes it unsuitable as a database for a growing collection of structured records.
+
+### 4. What SQLite provides
+
+**SQLite** is a local relational database. It allows us to create tables with multiple columns and store each order as a separate row.
+
+For example:
+
+```sql
+CREATE TABLE orders (
+  id INTEGER PRIMARY KEY,
+  item_name TEXT,
+  quantity INTEGER,
+  price REAL,
+  timestamp TEXT
+);
+```
+
+Then each order can be stored separately:
+
+```text
+orders
+┌────┬───────────┬──────────┬───────┬───────────┐
+│ id │ item_name │ quantity │ price │ timestamp │
+├────┼───────────┼──────────┼───────┼───────────┤
+│ 1  │ Pizza     │ 2        │ 400   │ 10:30     │
+│ 2  │ Burger    │ 1        │ 150   │ 12:15     │
+│ 3  │ Pasta     │ 3        │ 450   │ 18:20     │
+└────┴───────────┴──────────┴───────┴───────────┘
+```
+
+SQLite also supports database operations such as:
+
+* **INSERT** — add a new order
+* **SELECT** — retrieve order history
+* **UPDATE** — modify an order
+* **DELETE** — remove an order
+* **WHERE** — filter records
+* **ORDER BY** — sort orders by timestamp
+
+### Comparison
+
+| Requirement                | SharedPreferences     | SQLite      |
+| -------------------------- | --------------------- | ----------- |
+| Last selected address      | ✅ Excellent           | ⚠️ Overkill |
+| Simple settings            | ✅ Excellent           | ⚠️ Overkill |
+| Multiple fields per record | ❌ Not designed for it | ✅           |
+| Large order history        | ❌                     | ✅           |
+| Search/filter records      | ❌ Limited/manual      | ✅           |
+| Sort by timestamp          | ❌ Manual              | ✅           |
+| Rows and columns           | ❌                     | ✅           |
+| CRUD operations            | ⚠️ Basic/manual       | ✅           |
+
+### Conclusion
+
+**SharedPreferences** is appropriate for the last delivery address because it is simple key-value data that only needs to be retrieved and replaced.
+
+**SQLite** is appropriate for order history because each order contains multiple fields and the app needs to manage many records. The key structural limitation of SharedPreferences is that it is a **key-value store rather than a relational database with rows and columns**. SQLite resolves this by providing structured tables, records, queries, indexing, and CRUD operations for complex local data.
+
+
+Question: Walk through the asynchronous sequence of the delete operation: how you call the
+database method, how you update the widget's state, and how you handle the scenario where
+the database throws an exception midway through the operation.
+
+1. Database Delete Method
+
+Future<void> deleteOrder(int orderId) async {
+  try {
+    final db = await database;
+
+    await db.delete(
+      'orders',
+      where: 'id = ?',
+      whereArgs: [orderId],
+    );
+  } catch (error) {
+    rethrow;
+  }
+}
+
+2. Delete from the Screen
+
+Future<void> cancelOrder(int orderId) async {
+  try {
+    // 1. Delete from SQLite
+    await databaseService.deleteOrder(orderId);
+
+    // 2. Update UI after successful deletion
+    setState(() {
+      orders.removeWhere(
+        (order) => order.id == orderId,
+      );
+    });
+
+    // 3. Show success message
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Order cancelled successfully'),
+        ),
+      );
+    }
+  } catch (error) {
+    // Handle database error
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Unable to cancel order: $error',
+          ),
+        ),
+      );
+    }
+  }
+}
+
+3. Asynchronous Sequence
+
+User taps "Cancel"
+        ↓
+cancelOrder(orderId)
+        ↓
+Call databaseService.deleteOrder()
+        ↓
+       await
+        ↓
+SQLite deletes the record
+        ↓
+ ┌───────────────┐
+ │               │
+Success        Exception
+ │               │
+ ↓               ↓
+setState()      catch
+ │               │
+ ↓               ↓
+Remove item     Show error
+from UI         message
+ │
+ ↓
+UI rebuilds
+        ↓
+Cancelled order disappears
+
+4. Why await is Important
+
+await databaseService.deleteOrder(orderId);
+
+ensures that the UI is updated after the database confirms the deletion.
+
+
+
+5. Handling a Database Exception
+
+try {
+  await databaseService.deleteOrder(orderId);
+
+  setState(() {
+    orders.removeWhere(
+      (order) => order.id == orderId,
+    );
+  });
+} catch (error) {
+  print('Delete failed: $error');
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('Failed to cancel order'),
+    ),
+  );
+}
+
+6. Better UX: Loading State
+
+bool isDeleting = false;
+
+Future<void> cancelOrder(int orderId) async {
+  setState(() {
+    isDeleting = true;
+  });
+
+  try {
+    await databaseService.deleteOrder(orderId);
+
+    if (!mounted) return;
+
+    setState(() {
+      orders.removeWhere(
+        (order) => order.id == orderId,
+      );
+      isDeleting = false;
+    });
+  } catch (error) {
+    if (!mounted) return;
+
+    setState(() {
+      isDeleting = false;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Failed to cancel order'),
+      ),
+    );
+  }
+}
+
+
+

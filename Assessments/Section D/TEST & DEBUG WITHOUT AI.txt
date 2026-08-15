@@ -1,0 +1,7 @@
+static Future<void> insertSampleData() async {
+  final db = await getDatabase();
+
+  await db.insert(...);
+  await db.insert(...);
+  await db.insert(...);
+}
